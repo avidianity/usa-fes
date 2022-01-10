@@ -1,0 +1,110 @@
+# For more information: https://laravel.com/docs/sail
+version: '3'
+services:
+    laravel.test:
+        container_name: usa-fes-server
+        build:
+            context: ./docker/8.1
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: usafes-8.1/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        volumes:
+            - '.:/var/www/html'
+            - 'usafesdevextensions:/home/sail/.vscode-server/extensions'
+        networks:
+            - usafes
+        depends_on:
+            - mysql
+            - redis
+            - meilisearch
+    mysql:
+        container_name: usa-fes-mysql
+        image: 'mysql:8.0'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - 'usafesmysql:/var/lib/mysql'
+        networks:
+            - usafes
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-p${DB_PASSWORD}']
+            retries: 3
+            timeout: 5s
+    redis:
+        container_name: usa-fes-redis
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'usafesredis:/data'
+        networks:
+            - usafes
+        healthcheck:
+            test: ['CMD', 'redis-cli', 'ping']
+            retries: 3
+            timeout: 5s
+    meilisearch:
+        container_name: usa-fes-meilisearch
+        image: 'getmeili/meilisearch:latest'
+        platform: linux/x86_64
+        ports:
+            - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
+        volumes:
+            - 'usafesmeilisearch:/data.ms'
+        networks:
+            - usafes
+        healthcheck:
+            test:
+                [
+                    'CMD',
+                    'wget',
+                    '--no-verbose',
+                    '--spider',
+                    'http://localhost:7700/health',
+                ]
+            retries: 3
+            timeout: 5s
+    mailhog:
+        container_name: usa-fes-mailhog
+        image: 'mailhog/mailhog:latest'
+        ports:
+            - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+            - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
+        networks:
+            - usafes
+        environment:
+            MH_STORAGE: 'maildir'
+        volumes:
+            - 'usafesmailhog:/maildir'
+networks:
+    usafes:
+        driver: bridge
+volumes:
+    usafesmysql:
+        driver: local
+    usafesredis:
+        driver: local
+    usafesmeilisearch:
+        driver: local
+    usafesmailhog:
+        driver: local
+    usafesdevextensions:
+        driver: local
