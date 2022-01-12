@@ -1,0 +1,125 @@
+<div class="bg-red-500 h-full w-full flex items-center justify-center py-8">
+	<form
+		class="bg-white rounded-lg shadow px-10 md:px-14 pt-6 pb-14"
+		(ngSubmit)="submit()"
+	>
+		<div class="text-center">
+			<label for="picture">
+				<img
+					[src]="preview ? preview : '/assets/logo-rounded.png'"
+					class="mx-auto shadow h-28 w-28 rounded-full border border-gray-200 hover:cursor-pointer"
+					alt="Upload Profile Picture"
+				/>
+				<input type="file" name="picture" id="picture" class="hidden" />
+			</label>
+			<h3 class="text-3xl mt-2">University of San Agustin</h3>
+			<p class="text-2xl">Faculty Evaluation System</p>
+		</div>
+		<div class="md:w-11/12 sm:w-full mx-auto mt-6">
+			<label for="section_id" class="block my-3">
+				<span class="text-gray-700">Section</span>
+				<select
+					name="section_id"
+					id="section_id"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.section_id"
+					[disabled]="processing"
+				>
+					<option value="" disabled>-- Select --</option>
+					<option
+						*ngFor="let section of sections"
+						[value]="section.id"
+					>
+						{{ section.name }}
+					</option>
+				</select>
+			</label>
+			<label for="school_id" class="block my-3">
+				<span class="text-gray-700">School ID</span>
+				<input
+					type="text"
+					name="school_id"
+					id="school_id"
+					placeholder="School ID"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.school_id"
+					[disabled]="processing"
+				/>
+			</label>
+			<label for="first_name" class="block my-3">
+				<span class="text-gray-700">First Name</span>
+				<input
+					type="text"
+					name="first_name"
+					id="first_name"
+					placeholder="First Name"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.first_name"
+					[disabled]="processing"
+				/>
+			</label>
+			<label for="last_name" class="block my-3">
+				<span class="text-gray-700">Last Name</span>
+				<input
+					type="text"
+					name="last_name"
+					id="last_name"
+					placeholder="Last Name"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.last_name"
+					[disabled]="processing"
+				/>
+			</label>
+			<label for="email" class="block my-3">
+				<span class="text-gray-700">Email</span>
+				<input
+					type="email"
+					name="email"
+					id="email"
+					placeholder="Email"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.email"
+					[disabled]="processing"
+				/>
+			</label>
+			<label for="password" class="block my-3">
+				<span class="text-gray-700">Password</span>
+				<input
+					type="password"
+					name="password"
+					id="password"
+					placeholder="Password"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.password"
+					[disabled]="processing"
+				/>
+			</label>
+			<label for="password_confirmation" class="block my-3">
+				<span class="text-gray-700">Confirm Password</span>
+				<input
+					type="password"
+					name="password_confirmation"
+					id="password_confirmation"
+					placeholder="Confirm Password"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.password_confirmation"
+					[disabled]="processing"
+				/>
+			</label>
+			<button
+				type="submit"
+				class="bg-blue-600 w-full py-2 text-white rounded hover:bg-blue-400 disabled:bg-blue-400 disabled:cursor-not-allowed"
+				[disabled]="processing"
+			>
+				{{ processing ? '' : 'Sign Up' }}
+				<i class="las la-spinner animate-spin" *ngIf="processing"></i>
+			</button>
+			<a
+				routerLink="/login"
+				class="mt-2 block text-blue-600 text-sm hover:underline"
+			>
+				Already have an account? Sign In
+			</a>
+		</div>
+	</form>
+</div>

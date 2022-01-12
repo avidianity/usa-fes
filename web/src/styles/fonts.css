@@ -1,0 +1,10 @@
+@import '@fontsource/open-sans';
+@import '@fontsource/montserrat';
+@import '@fontsource/lato';
+
+body {
+	font-family: 'Lato', 'Montserrat', 'Open Sans', ui-sans-serif, system-ui,
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+		Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol', 'Noto Color Emoji';
+}

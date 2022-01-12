@@ -34,7 +34,7 @@ class RegisterRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', Rule::unique(User::class)],
             'password' => ['required', 'string', 'max:255', 'confirmed'],
-            'picture' => ['required', 'file']
+            'picture' => ['nullable', 'file']
         ];
     }
 }

@@ -30,4 +30,11 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string', 'max:255']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.exists' => 'Email does not exist.'
+        ];
+    }
 }

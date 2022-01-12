@@ -32,13 +32,16 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResources([
         'subjects' => SubjectController::class,
-        'sections' => SectionController::class,
         'academic-years' => AcademicYearController::class,
         'criterias' => CriteriaController::class,
         'criterias.questions' => QuestionController::class,
         'users' => UserController::class
     ]);
 
+    Route::apiResource('sections', SectionController::class)->except('index');
+
     Route::apiResource('questions.answers', AnswerController::class)->except('update', 'store');
     Route::post('answers/many', [AnswerController::class, 'storeMany'])->name('answers.store-many');
 });
+
+Route::apiResource('sections', SectionController::class)->only('index');

@@ -1,0 +1,66 @@
+<div class="bg-red-500 h-screen w-screen flex items-center justify-center">
+	<div class="bg-white rounded-lg shadow px-10 md:px-14 pt-6 pb-14">
+		<div class="text-center">
+			<img
+				src="/assets/logo-rounded.png"
+				class="mx-auto shadow h-28 w-28 rounded-full border border-gray-200"
+				alt="USA-FES"
+			/>
+			<h3 class="text-3xl mt-2">University of San Agustin</h3>
+			<p class="text-2xl">Faculty Evaluation System</p>
+		</div>
+		<form class="md:w-11/12 sm:w-full mx-auto mt-6" (ngSubmit)="submit()">
+			<label for="email" class="block my-3">
+				<span class="text-gray-700">Email</span>
+				<input
+					type="email"
+					name="email"
+					id="email"
+					placeholder="Email"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.email"
+					[disabled]="processing"
+				/>
+			</label>
+			<label for="password" class="block my-3">
+				<span class="text-gray-700">Password</span>
+				<input
+					type="password"
+					name="password"
+					id="password"
+					placeholder="Password"
+					class="mt-1 rounded-md border-gray-300 w-full disabled:bg-gray-200"
+					[(ngModel)]="data.password"
+					[disabled]="processing"
+				/>
+			</label>
+			<div class="flex my-3 items-center">
+				<label for="remember">
+					<input
+						type="checkbox"
+						name="remember"
+						id="remember"
+						class="rounded-full mr-1 disabled:bg-gray-200"
+						[(ngModel)]="data.remember"
+						[disabled]="processing"
+					/>
+					<small>Remember Me</small>
+				</label>
+			</div>
+			<button
+				type="submit"
+				class="bg-blue-600 w-full py-2 text-white rounded hover:bg-blue-400 disabled:bg-blue-400 disabled:cursor-not-allowed"
+				[disabled]="processing"
+			>
+				{{ processing ? '' : 'Sign In' }}
+				<i class="las la-spinner animate-spin" *ngIf="processing"></i>
+			</button>
+			<a
+				routerLink="/register"
+				class="mt-2 block text-blue-600 text-sm hover:underline"
+			>
+				Don't have an account? Sign Up
+			</a>
+		</form>
+	</div>
+</div>
