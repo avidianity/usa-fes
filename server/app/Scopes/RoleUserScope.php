@@ -21,7 +21,7 @@ class RoleUserScope implements Scope
         /**
          * @var \App\Models\User|null
          */
-        $user = auth('sanctum')->user();
+        $user = auth()->user();
 
         if ($user && $user->role !== User::ADMIN) {
             $builder->where('role', '!=', User::ADMIN);
