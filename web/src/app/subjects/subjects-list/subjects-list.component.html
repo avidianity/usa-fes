@@ -1,0 +1,47 @@
+<app-title title="Subjects"></app-title>
+
+<div class="rounded-lg shadow px-4 py-6 bg-white border border-gray-200 my-3">
+	<div class="flex">
+		<button
+			type="button"
+			class="bg-blue-600 py-1 px-3 text-white rounded hover:bg-blue-400 disabled:bg-blue-400 disabled:cursor-not-allowed"
+			[disabled]="loading"
+			(click)="fetchSubjects()"
+		>
+			{{ loading ? '' : 'Refresh' }}
+			<i class="las la-spinner animate-spin" *ngIf="loading"></i>
+		</button>
+		<button
+			type="button"
+			class="bg-emerald-600 py-1 px-3 text-white rounded hover:bg-emerald-400 disabled:bg-emerald-400 disabled:cursor-not-allowed ml-1"
+			[disabled]="loading"
+			routerLink="add"
+		>
+			Add
+		</button>
+	</div>
+	<div class="mt-3">
+		<table
+			datatable
+			[dtOptions]="datatableOptions"
+			[dtTrigger]="datatableTrigger"
+		>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let subject of subjects">
+					<td>{{ subject.id }}</td>
+					<td>{{ subject.code }}</td>
+					<td>{{ subject.name }}</td>
+					<td>{{ subject.description || '' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

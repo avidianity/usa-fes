@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use function Pest\Laravel\postJson;
 use function Pest\Faker\faker;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 
 uses(RefreshDatabase::class);
@@ -62,4 +63,11 @@ it('checks a user', function () {
         ->assertOk();
 
     expect($response->json('id') === $user->id)->toBeTrue();
+});
+
+it('logs out a user', function () {
+    actingAs();
+
+    deleteJson(route('auth.logout'))
+        ->assertNoContent();
 });

@@ -1,0 +1,77 @@
+<app-title title="Home"></app-title>
+
+<div class="rounded-lg shadow px-4 py-6 bg-white border border-gray-200 my-3">
+	Welcome {{ user.name }}!
+	<div class="flex" *ngIf="analytics.academic_year">
+		<div
+			class="mt-2 shadow p-4 border border-y-gray-200 border-r-gray-200 border-l-4 border-l-teal-700 rounded-lg inline-block w-full lg:w-2/4 xl:w-2/5"
+		>
+			<h3 class="text-xl font-bold">
+				Academic Year: {{ analytics.academic_year.year }}
+			</h3>
+			<h3 class="text-xl font-bold">
+				{{ analytics.academic_year.semester }}
+			</h3>
+			<h3 class="text-lg font-bold mt-2">
+				Evaluation Status: {{ analytics.academic_year.status }}
+			</h3>
+		</div>
+	</div>
+</div>
+
+<div class="flex">
+	<div
+		class="rounded-lg shadow p-6 bg-white border border-gray-200 m-2 w-100 md:w-1/4"
+	>
+		<div class="flex">
+			<div class="inline-block">
+				<h2 class="text-2xl font-bold">{{ analytics.faculties }}</h2>
+				<p class="mt-3">Total Faculties</p>
+			</div>
+			<div class="ml-auto mr-1">
+				<i class="las la-user-friends la-5x text-gray-500"></i>
+			</div>
+		</div>
+	</div>
+	<div
+		class="rounded-lg shadow p-6 bg-white border border-gray-200 m-2 w-100 md:w-1/4"
+	>
+		<div class="flex">
+			<div class="inline-block">
+				<h2 class="text-2xl font-bold">{{ analytics.students }}</h2>
+				<p class="mt-3">Total Students</p>
+			</div>
+			<div class="ml-auto mr-1">
+				<i class="las la-users la-5x text-gray-500"></i>
+			</div>
+		</div>
+	</div>
+	<div
+		class="rounded-lg shadow p-6 bg-white border border-gray-200 m-2 w-100 md:w-1/4"
+	>
+		<div class="flex">
+			<div class="inline-block">
+				<h2 class="text-2xl font-bold">
+					{{ analytics.administrators }}
+				</h2>
+				<p class="mt-3">Total Administrators</p>
+			</div>
+			<div class="ml-auto mr-1">
+				<i class="las la-user-tie la-5x text-gray-500"></i>
+			</div>
+		</div>
+	</div>
+	<div
+		class="rounded-lg shadow p-6 bg-white border border-gray-200 m-2 w-100 md:w-1/4"
+	>
+		<div class="flex">
+			<div class="inline-block">
+				<h2 class="text-2xl font-bold">{{ analytics.sections }}</h2>
+				<p class="mt-3">Total Sections</p>
+			</div>
+			<div class="ml-auto mr-1">
+				<i class="las la-list-ul la-5x text-gray-500"></i>
+			</div>
+		</div>
+	</div>
+</div>

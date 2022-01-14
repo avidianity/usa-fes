@@ -42,7 +42,11 @@ export class AppComponent implements OnInit {
 					}),
 				})
 				.subscribe({
-					error: () => this.state.remove('token').remove('user'),
+					error: (error: HttpErrorResponse) => {
+						if (error.status === 401) {
+							this.state.remove('token').remove('user');
+						}
+					},
 				})
 				.add(() => (this.loading = false));
 		} else {

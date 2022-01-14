@@ -26,10 +26,15 @@
 						"styles": [
 							"src/styles/tailwind.css",
 							"src/styles/fonts.css",
+							"src/styles/global.css",
 							"node_modules/ngx-toastr/toastr.css",
-							"node_modules/line-awesome/dist/line-awesome/css/line-awesome.css"
+							"node_modules/line-awesome/dist/line-awesome/css/line-awesome.css",
+							"node_modules/datatables.net-dt/css/jquery.dataTables.min.css"
 						],
-						"scripts": []
+						"scripts": [
+							"node_modules/jquery/dist/jquery.min.js",
+							"node_modules/datatables.net/js/jquery.dataTables.min.js"
+						]
 					},
 					"configurations": {
 						"production": {
@@ -93,6 +98,7 @@
 						"styles": [
 							"src/styles/tailwind.css",
 							"src/styles/fonts.css",
+							"src/styles/global.css",
 							"node_modules/ngx-toastr/toastr.css"
 						],
 						"scripts": []

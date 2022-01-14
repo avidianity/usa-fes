@@ -16,9 +16,38 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SectionsComponent } from './sections/sections.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { SubjectsComponent } from './subjects/subjects.component';
+import { MainPanelComponent } from './dashboard/main-panel/main-panel.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { AcademicYearsComponent } from './academic-years/academic-years.component';
+import { QuestionnairesComponent } from './questionnaires/questionnaires.component';
+import { EvaluationCriteriasComponent } from './evaluation-criterias/evaluation-criterias.component';
+import { UsersComponent } from './users/users.component';
+import { EvaluationReportsComponent } from './evaluation-reports/evaluation-reports.component';
+import { SubjectsListComponent } from './subjects/subjects-list/subjects-list.component';
+import { TitleComponent } from './shared/title/title.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
-	declarations: [AppComponent, LoginComponent, RegisterComponent, DashboardComponent, SectionsComponent],
+	declarations: [
+		AppComponent,
+		LoginComponent,
+		RegisterComponent,
+		DashboardComponent,
+		SectionsComponent,
+		SidebarComponent,
+		SubjectsComponent,
+		MainPanelComponent,
+		NavbarComponent,
+		AcademicYearsComponent,
+		QuestionnairesComponent,
+		EvaluationCriteriasComponent,
+		UsersComponent,
+		EvaluationReportsComponent,
+		SubjectsListComponent,
+		TitleComponent,
+	],
 	imports: [
 		FormsModule,
 		BrowserModule,
@@ -26,6 +55,7 @@ import { SectionsComponent } from './sections/sections.component';
 		HttpClientModule,
 		BrowserAnimationsModule,
 		ToastrModule.forRoot(),
+		DataTablesModule,
 	],
 	providers: [],
 	bootstrap: [AppComponent],

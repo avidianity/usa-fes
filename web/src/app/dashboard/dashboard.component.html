@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<div class="flex h-screen w-full" *ngIf="user !== null">
+	<app-sidebar [user]="user"></app-sidebar>
+	<div class="h-full w-full bg-gray-100">
+		<app-navbar [user]="user"></app-navbar>
+		<div class="pt-6 px-5">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+</div>

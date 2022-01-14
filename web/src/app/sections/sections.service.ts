@@ -19,7 +19,7 @@ export class SectionsService implements EloquentContract<Section> {
 		if (this.state.has('token')) {
 			const token = this.state.get('token');
 
-			headers.set('Authorization', `Bearer ${token}`);
+			return headers.set('Authorization', `Bearer ${token}`);
 		}
 
 		return headers;

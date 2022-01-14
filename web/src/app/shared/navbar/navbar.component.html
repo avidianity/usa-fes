@@ -1,0 +1,41 @@
+<div class="py-4 pl-5 pr-8 w-full bg-red-500 border-b border-gray-200">
+	<div class="flex">
+		<button class="mr-4">
+			<i class="las la-bars text-white text-xl"></i>
+		</button>
+		<div class="flex items-center pb-1">
+			<h6 class="text-white text-lg font-bold">
+				Faculty Evaluation System
+			</h6>
+		</div>
+		<div
+			class="ml-auto flex cursor-pointer relative"
+			(click)="toggleMenu()"
+		>
+			<span class="mr-1">
+				<img
+					src="/assets/logo-rounded.png"
+					alt="Profile"
+					class="h-6 w-6 rounded-full shadow border border-gray-200"
+				/>
+			</span>
+			<span class="text-white">
+				{{ user.name }}
+			</span>
+			<span class="ml-2">
+				<i class="las la-angle-down text-white"></i>
+			</span>
+			<div
+				class="w-40 bg-white border border-gray-200 absolute -bottom-12 -left-6 px-2 rounded shadow"
+				*ngIf="showMenu"
+			>
+				<button
+					class="w-full border border-gray-200 shadow my-2 rounded py-1 hover:bg-red-500 hover:text-white"
+					(click)="logout()"
+				>
+					Logout
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

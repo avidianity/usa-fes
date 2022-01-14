@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CriteriaController;
@@ -22,14 +23,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
-    Route::get('check', [AuthController::class, 'check'])
-        ->middleware('auth:sanctum')
-        ->name('check');
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::get('check', [AuthController::class, 'check'])
+            ->name('check');
+        Route::delete('logout', [AuthController::class, 'logout'])
+            ->name('logout');
+    });
+
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('register', [AuthController::class, 'register'])->name('register');
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('analytics', AnalyticsController::class)->name('analytics');
+
     Route::apiResources([
         'subjects' => SubjectController::class,
         'academic-years' => AcademicYearController::class,

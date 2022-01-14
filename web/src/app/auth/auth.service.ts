@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import FormData from '@avidian/form-data';
+import { EMPTY } from 'rxjs';
 import { url } from 'src/helpers';
 import { User } from '../contracts/models/user';
 import { StateService } from '../state.service';
@@ -40,6 +41,21 @@ export class AuthService {
 				}),
 			}
 		);
+	}
+
+	logout() {
+		const token = this.state.get('token');
+
+		if (token) {
+			return this.http.delete<void>(url('/api/auth/logout'), {
+				headers: new HttpHeaders({
+					Accept: 'application/json',
+					Authorization: `Bearer ${token}`,
+				}),
+			});
+		}
+
+		return EMPTY;
 	}
 
 	redirectIfAuthenticated() {

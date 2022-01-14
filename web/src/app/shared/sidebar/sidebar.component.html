@@ -1,0 +1,141 @@
+<div class="h-full w-72 bg-white shadow-lg drop-shadow-lg">
+	<div class="py-4 border-b border-gray-200 flex">
+		<div class="mx-auto flex">
+			<img
+				src="/assets/logo-rounded.png"
+				alt="USA-FES"
+				class="h-10 w-10 rounded-full shadow border border-gray-200 mr-1"
+			/>
+			<h4 class="text-2xl mt-1">
+				{{ title }}
+			</h4>
+		</div>
+	</div>
+	<ul class="list-none w-full">
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="/dashboard"
+				routerLinkActive="router-link-active bg-red-500"
+				[routerLinkActiveOptions]="{ exact: true }"
+			>
+				<span class="pt-1">
+					<i
+						class="las la-tachometer-alt text-2xl router-link-icon"
+					></i>
+				</span>
+				<span class="ml-2 router-link-text">Main Panel</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="subjects"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-th-list text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Subjects</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="sections"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-list-ul text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Sections</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="academic-years"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-calendar text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Academic Years</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="questionnaires"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-file-alt text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Questionnaires</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="evaluation-criterias"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-archive text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Evaluation Criteria</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="faculties"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i
+						class="las la-user-friends text-2xl router-link-icon"
+					></i>
+				</span>
+				<span class="ml-2 router-link-text">Faculties</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="students"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-users text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Students</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="evaluation-reports"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-flag text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Evaluation Reports</span>
+			</a>
+		</li>
+		<li>
+			<a
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"
+				routerLink="administrators"
+				routerLinkActive="router-link-active bg-red-500"
+			>
+				<span class="pt-1">
+					<i class="las la-user-tie text-2xl router-link-icon"></i>
+				</span>
+				<span class="ml-2 router-link-text">Administrators</span>
+			</a>
+		</li>
+	</ul>
+</div>
