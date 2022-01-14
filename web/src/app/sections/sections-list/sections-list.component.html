@@ -1,4 +1,4 @@
-<app-title title="Subjects"></app-title>
+<app-title title="Sections"></app-title>
 
 <div class="rounded-lg shadow px-4 py-6 bg-white border border-gray-200 my-3">
 	<div class="flex">
@@ -29,18 +29,18 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>Code</th>
-					<th>Name</th>
-					<th>Description</th>
+					<th>Curriculum</th>
+					<th>Year Level</th>
+					<th>Section</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr *ngFor="let item of items">
 					<td>{{ item.id }}</td>
-					<td>{{ item.code }}</td>
 					<td>{{ item.name }}</td>
-					<td>{{ truncate(item.description || '') }}</td>
+					<td>{{ item.level }}</td>
+					<td>{{ item.section }}</td>
 					<td class="flex">
 						<a
 							class="btn-yellow mx-1 p-0 h-8 w-8 flex items-center justify-center"

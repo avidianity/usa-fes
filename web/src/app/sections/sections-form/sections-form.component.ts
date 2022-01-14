@@ -1,28 +1,28 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormMode } from 'src/app/contracts/enums/form-mode.enum';
-import { Subject } from 'src/app/contracts/models/subject';
+import { Section } from 'src/app/contracts/models/section';
 import { errorToStrings } from 'src/helpers';
-import { SubjectsService } from '../subjects.service';
+import { SectionsService } from '../sections.service';
 
 @Component({
-	selector: 'app-subjects-form',
-	templateUrl: './subjects-form.component.html',
-	styleUrls: ['./subjects-form.component.css'],
+	selector: 'app-sections-form',
+	templateUrl: './sections-form.component.html',
+	styleUrls: ['./sections-form.component.css'],
 })
-export class SubjectsFormComponent implements OnInit {
+export class SectionsFormComponent implements OnInit {
 	mode: FormMode = FormMode.ADD;
 
 	processing = false;
 
-	data = new Subject();
+	data = new Section();
 
 	constructor(
 		private router: Router,
 		private route: ActivatedRoute,
-		private service: SubjectsService,
+		private service: SectionsService,
 		private toastr: ToastrService
 	) {}
 
@@ -36,19 +36,19 @@ export class SubjectsFormComponent implements OnInit {
 
 	fetchItem(id: any) {
 		this.service.find(id).subscribe({
-			next: (subject) => {
-				this.data = subject;
+			next: (section) => {
+				this.data = section;
 				this.mode = FormMode.EDIT;
 			},
 			error: () => {
-				this.toastr.error('Unable to fetch Subject.');
+				this.toastr.error('Unable to fetch Section.');
 				this.goBack();
 			},
 		});
 	}
 
 	get title() {
-		return `${this.mode} Subject`;
+		return `${this.mode} Section`;
 	}
 
 	submit() {
@@ -57,7 +57,7 @@ export class SubjectsFormComponent implements OnInit {
 			.save(this.data)
 			.subscribe({
 				next: () => {
-					this.toastr.success('Subject saved successfully!');
+					this.toastr.success('Section saved successfully!');
 					this.goBack();
 				},
 				error: (error: HttpErrorResponse) =>
@@ -69,6 +69,6 @@ export class SubjectsFormComponent implements OnInit {
 	}
 
 	goBack() {
-		this.router.navigateByUrl('/dashboard/subjects');
+		this.router.navigateByUrl('/dashboard/sections');
 	}
 }

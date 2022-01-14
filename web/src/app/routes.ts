@@ -8,6 +8,8 @@ import { MainPanelComponent } from './dashboard/main-panel/main-panel.component'
 import { EvaluationCriteriasComponent } from './evaluation-criterias/evaluation-criterias.component';
 import { EvaluationReportsComponent } from './evaluation-reports/evaluation-reports.component';
 import { QuestionnairesComponent } from './questionnaires/questionnaires.component';
+import { SectionsFormComponent } from './sections/sections-form/sections-form.component';
+import { SectionsListComponent } from './sections/sections-list/sections-list.component';
 import { SectionsComponent } from './sections/sections.component';
 import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.component';
 import { SubjectsListComponent } from './subjects/subjects-list/subjects-list.component';
@@ -52,6 +54,20 @@ export const routes: Routes = [
 			{
 				path: 'sections',
 				component: SectionsComponent,
+				children: [
+					{
+						path: '',
+						component: SectionsListComponent,
+					},
+					{
+						path: 'add',
+						component: SectionsFormComponent,
+					},
+					{
+						path: ':id/edit',
+						component: SectionsFormComponent,
+					},
+				],
 			},
 			{
 				path: 'academic-years',

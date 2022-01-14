@@ -29,6 +29,8 @@ import { SubjectsListComponent } from './subjects/subjects-list/subjects-list.co
 import { TitleComponent } from './shared/title/title.component';
 import { DataTablesModule } from 'angular-datatables';
 import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.component';
+import { SectionsListComponent } from './sections/sections-list/sections-list.component';
+import { SectionsFormComponent } from './sections/sections-form/sections-form.component';
 
 @NgModule({
 	declarations: [
@@ -49,6 +51,8 @@ import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.co
 		SubjectsListComponent,
 		TitleComponent,
   SubjectsFormComponent,
+  SectionsListComponent,
+  SectionsFormComponent,
 	],
 	imports: [
 		FormsModule,

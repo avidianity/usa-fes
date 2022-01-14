@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'src/app/contracts/models/subject';
-import { SubjectsService } from '../subjects.service';
-import { Subject as Trigger } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
-import { truncate } from 'lodash';
-import { Asker } from 'src/helpers';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { Section } from 'src/app/contracts/models/section';
+import { Asker } from 'src/helpers';
+import { SectionsService } from '../sections.service';
 
 @Component({
-	selector: 'app-subjects-list',
-	templateUrl: './subjects-list.component.html',
-	styleUrls: ['./subjects-list.component.css'],
+	selector: 'app-sections-list',
+	templateUrl: './sections-list.component.html',
+	styleUrls: ['./sections-list.component.css'],
 })
-export class SubjectsListComponent implements OnInit, OnDestroy {
+export class SectionsListComponent implements OnInit, OnDestroy {
 	constructor(
-		private service: SubjectsService,
+		private service: SectionsService,
 		private toastr: ToastrService
 	) {}
 
@@ -27,9 +26,9 @@ export class SubjectsListComponent implements OnInit, OnDestroy {
 		responsive: true,
 	};
 
-	datatableTrigger = new Trigger<DataTables.Settings>();
+	datatableTrigger = new Subject<DataTables.Settings>();
 
-	items = new Array<Subject>();
+	items = new Array<Section>();
 
 	loading = false;
 
@@ -41,8 +40,8 @@ export class SubjectsListComponent implements OnInit, OnDestroy {
 		this.loading = true;
 		this.service
 			.all()
-			.subscribe((subjects) => {
-				this.items = subjects;
+			.subscribe((sections) => {
+				this.items = sections;
 
 				if (this.dtElement.dtInstance) {
 					this.dtElement.dtInstance
@@ -61,16 +60,16 @@ export class SubjectsListComponent implements OnInit, OnDestroy {
 
 	async remove(id: any) {
 		if (
-			await Asker.danger('Are you sure you want to delete this subject?')
+			await Asker.danger('Are you sure you want to delete this section?')
 		) {
 			this.service
 				.delete(id)
 				.subscribe({
 					next: () => {
-						this.toastr.success('Subject deleted successfully!');
+						this.toastr.success('Section deleted successfully!');
 					},
 					error: () => {
-						this.toastr.error('Unable to delete subject.');
+						this.toastr.error('Unable to delete section.');
 					},
 				})
 				.add(() => this.fetchItems());
@@ -79,11 +78,5 @@ export class SubjectsListComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.datatableTrigger.unsubscribe();
-	}
-
-	truncate(data: string) {
-		return truncate(data, {
-			length: 30,
-		});
 	}
 }
