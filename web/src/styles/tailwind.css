@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.form-control {
+		@apply appearance-none block w-full text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500;
+	}
+
+	.form-label {
+		@apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
+	}
+
+	.btn-primary {
+		@apply bg-blue-600 py-1 px-4 text-white rounded hover:bg-blue-400 disabled:bg-blue-400 disabled:cursor-not-allowed;
+	}
+
+	.btn-rose {
+		@apply bg-rose-600 py-1 px-4 text-white rounded hover:bg-rose-400 disabled:bg-rose-400 disabled:cursor-not-allowed;
+	}
+
+	.btn-emerald {
+		@apply bg-emerald-600 py-1 px-4 text-white rounded hover:bg-emerald-400 disabled:bg-emerald-400 disabled:cursor-not-allowed;
+	}
+
+	.btn-yellow {
+		@apply bg-yellow-600 py-1 px-4 text-white rounded hover:bg-yellow-400 disabled:bg-yellow-400 disabled:cursor-not-allowed;
+	}
+}

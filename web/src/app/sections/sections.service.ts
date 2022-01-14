@@ -25,6 +25,13 @@ export class SectionsService implements EloquentContract<Section> {
 		return headers;
 	}
 
+	save(data: Partial<Section>) {
+		if (data.id) {
+			return this.update(data.id, data);
+		}
+		return this.store(data);
+	}
+
 	all() {
 		return this.http.get<Section[]>(url('/api/sections'), {
 			headers: this.headers(),

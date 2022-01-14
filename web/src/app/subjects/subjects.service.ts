@@ -25,6 +25,13 @@ export class SubjectsService implements EloquentContract<Subject> {
 		return headers;
 	}
 
+	save(data: Partial<Subject>) {
+		if (data.id) {
+			return this.update(data.id, data);
+		}
+		return this.store(data);
+	}
+
 	all() {
 		return this.http.get<Subject[]>(url('/api/subjects'), {
 			headers: this.headers(),
@@ -37,13 +44,13 @@ export class SubjectsService implements EloquentContract<Subject> {
 		});
 	}
 
-	store(data?: Record<string, any>) {
+	store(data?: Partial<Subject>) {
 		return this.http.post<Subject>(url('/api/subjects'), data, {
 			headers: this.headers(),
 		});
 	}
 
-	update(id: number, data?: Record<string, any>) {
+	update(id: number, data?: Partial<Subject>) {
 		return this.http.put<Subject>(url(`/api/subjects/${id}`), data, {
 			headers: this.headers(),
 		});

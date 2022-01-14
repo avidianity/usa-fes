@@ -4,7 +4,7 @@
 	<div class="flex">
 		<button
 			type="button"
-			class="bg-blue-600 py-1 px-3 text-white rounded hover:bg-blue-400 disabled:bg-blue-400 disabled:cursor-not-allowed"
+			class="btn-primary mr-2"
 			[disabled]="loading"
 			(click)="fetchSubjects()"
 		>
@@ -13,7 +13,7 @@
 		</button>
 		<button
 			type="button"
-			class="bg-emerald-600 py-1 px-3 text-white rounded hover:bg-emerald-400 disabled:bg-emerald-400 disabled:cursor-not-allowed ml-1"
+			class="btn-emerald"
 			[disabled]="loading"
 			routerLink="add"
 		>
@@ -32,6 +32,7 @@
 					<th>Code</th>
 					<th>Name</th>
 					<th>Description</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,7 +40,21 @@
 					<td>{{ subject.id }}</td>
 					<td>{{ subject.code }}</td>
 					<td>{{ subject.name }}</td>
-					<td>{{ subject.description || '' }}</td>
+					<td>{{ truncate(subject.description || '') }}</td>
+					<td class="flex">
+						<a
+							class="btn-yellow mx-1 p-0 h-8 w-8 flex items-center justify-center"
+							[routerLink]="[subject.id, 'edit']"
+						>
+							<i class="las la-edit"></i>
+						</a>
+						<button
+							class="btn-rose mx-1 p-0 h-8 w-8"
+							(click)="remove(subject.id)"
+						>
+							<i class="las la-trash"></i>
+						</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

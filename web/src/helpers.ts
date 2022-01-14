@@ -51,7 +51,7 @@ export function url(path: string) {
 	return `${environment.serverUrl}${path}`;
 }
 
-export function errorToStrings(error: any) {
+export function errorToStrings(error: Error) {
 	if (error instanceof HttpErrorResponse) {
 		const messages: string[] = [];
 

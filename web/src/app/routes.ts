@@ -9,6 +9,7 @@ import { EvaluationCriteriasComponent } from './evaluation-criterias/evaluation-
 import { EvaluationReportsComponent } from './evaluation-reports/evaluation-reports.component';
 import { QuestionnairesComponent } from './questionnaires/questionnaires.component';
 import { SectionsComponent } from './sections/sections.component';
+import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.component';
 import { SubjectsListComponent } from './subjects/subjects-list/subjects-list.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { UsersComponent } from './users/users.component';
@@ -37,6 +38,14 @@ export const routes: Routes = [
 					{
 						path: '',
 						component: SubjectsListComponent,
+					},
+					{
+						path: 'add',
+						component: SubjectsFormComponent,
+					},
+					{
+						path: ':id/edit',
+						component: SubjectsFormComponent,
 					},
 				],
 			},

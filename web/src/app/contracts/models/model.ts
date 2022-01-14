@@ -1,5 +1,5 @@
 export class Model {
 	public id?: number;
-	public created_at = '';
-	public updated_at = '';
+	public created_at?: string;
+	public updated_at?: string;
 }

@@ -28,6 +28,7 @@ import { EvaluationReportsComponent } from './evaluation-reports/evaluation-repo
 import { SubjectsListComponent } from './subjects/subjects-list/subjects-list.component';
 import { TitleComponent } from './shared/title/title.component';
 import { DataTablesModule } from 'angular-datatables';
+import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.component';
 
 @NgModule({
 	declarations: [
@@ -47,6 +48,7 @@ import { DataTablesModule } from 'angular-datatables';
 		EvaluationReportsComponent,
 		SubjectsListComponent,
 		TitleComponent,
+  SubjectsFormComponent,
 	],
 	imports: [
 		FormsModule,

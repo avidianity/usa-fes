@@ -6,9 +6,11 @@ export interface EloquentContract<T extends Model> {
 
 	find(id: number): Observable<T>;
 
-	store(data?: Record<string, any>): Observable<T>;
+	store(data?: Partial<T>): Observable<T>;
 
-	update(id: number, data?: Record<string, any>): Observable<T>;
+	update(id: number, data?: Partial<T>): Observable<T>;
 
 	delete(id: number): Observable<void>;
+
+	save(data: Partial<T>): Observable<T>;
 }
