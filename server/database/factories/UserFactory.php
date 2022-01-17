@@ -20,7 +20,8 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName($gender),
             'email' => $this->faker->unique()->email,
             'password' => 'password',
-            'role' => $this->faker->randomElement(User::ROLES)
+            'role' => $this->faker->randomElement(User::ROLES),
+            'active' => $this->faker->boolean
         ];
     }
 

@@ -52,6 +52,7 @@ class User extends Authenticatable
     protected $casts = [
         'active' => 'boolean',
         'password' => Password::class,
+        'section_id' => 'integer'
     ];
 
     protected static function booted()
@@ -80,6 +81,11 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return sprintf('%s %s', $this->attributes['first_name'], $this->attributes['last_name']);
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
     }
 
     public function answersAsStudent()

@@ -104,7 +104,7 @@ export const routes: Routes = [
 				component: EvaluationReportsComponent,
 			},
 			{
-				path: 'administrators',
+				path: 'admins',
 				component: UsersComponent,
 				children: [
 					{

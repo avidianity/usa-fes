@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import FormData from '@avidian/form-data';
+import { isEmpty, isString } from 'lodash';
 import { url } from 'src/helpers';
 import { EloquentContract } from '../contracts/eloquent.contract';
 import { Roles } from '../contracts/enums/roles.enum';
@@ -49,13 +51,43 @@ export class UsersService implements EloquentContract<User> {
 	}
 
 	store(data?: Record<string, any>) {
-		return this.http.post<User>(url('/api/users'), data, {
+		const filtered: any = {};
+
+		for (const [key, value] of Object.entries(data!)) {
+			if (isString(value)) {
+				if (!isEmpty(value)) {
+					filtered[key] = value;
+				}
+			} else {
+				filtered[key] = value;
+			}
+		}
+
+		const payload = new FormData(filtered, { nullsAsUndefineds: true });
+
+		return this.http.post<User>(url('/api/users'), payload, {
 			headers: this.headers(),
 		});
 	}
 
 	update(id: number, data?: Record<string, any>) {
-		return this.http.put<User>(url(`/api/users/${id}`), data, {
+		const filtered: any = {};
+
+		for (const [key, value] of Object.entries(data!)) {
+			if (isString(value)) {
+				if (!isEmpty(value)) {
+					filtered[key] = value;
+				}
+			} else {
+				filtered[key] = value;
+			}
+		}
+
+		const payload = new FormData(filtered, { nullsAsUndefineds: true });
+
+		payload.set('_method', 'PUT');
+
+		return this.http.post<User>(url(`/api/users/${id}`), payload, {
 			headers: this.headers(),
 		});
 	}

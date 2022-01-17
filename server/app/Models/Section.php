@@ -14,4 +14,23 @@ class Section extends Model
         'level',
         'section'
     ];
+
+    protected $appends = [
+        'title'
+    ];
+
+    protected static function booted()
+    {
+        static::deleting(fn (self $section) => $section->users->each->delete());
+    }
+
+    public function getTitleAttribute()
+    {
+        return sprintf('%s %s-%s', $this->attributes['name'], $this->attributes['level'], $this->attributes['section']);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

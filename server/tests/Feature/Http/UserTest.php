@@ -74,7 +74,7 @@ it('creates a user', function () {
 it('updates a user', function () {
     $data = User::factory()->data();
 
-    $user = User::factory()->create();
+    $user = User::factory()->create(['active' => false]);
 
     unset($data['name']);
 

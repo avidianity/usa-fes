@@ -33,6 +33,7 @@
 					<th>Name</th>
 					<th>Email</th>
 					<th *ngIf="role === roles.STUDENT">Current Class</th>
+					<th>Status</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -53,7 +54,18 @@
 					</td>
 					<td class="text-center">{{ item.email }}</td>
 					<td class="text-center" *ngIf="role === roles.STUDENT">
-						{{ item.section?.name || 'N/A' }}
+						{{ item.section?.title || 'N/A' }}
+					</td>
+					<td class="text-center">
+						<span
+							class="text-white px-2 py-1 rounded text-xs font-bold w-16 inline-block"
+							[ngClass]="{
+								'bg-rose-500': !item.active,
+								'bg-emerald-500': item.active
+							}"
+						>
+							{{ item.active ? 'Active' : 'Inactive' }}
+						</span>
 					</td>
 					<td class="flex justify-center" *ngIf="me.id !== item.id">
 						<a

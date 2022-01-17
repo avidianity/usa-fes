@@ -16,7 +16,7 @@ class File extends Model
 
     protected $fillable = ['type', 'name', 'url', 'size', 'path'];
 
-    protected $hidden = ['path'];
+    protected $hidden = ['path', 'fileable_id', 'fileable_type'];
 
     protected static function booted()
     {

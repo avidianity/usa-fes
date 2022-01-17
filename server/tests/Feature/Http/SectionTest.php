@@ -49,6 +49,8 @@ it('updates a section', function () {
 
     $section = Section::factory()->create();
 
+    unset($data['title']);
+
     putJson(route('sections.update', ['section' => $section->id]), $data)
         ->assertOk();
 

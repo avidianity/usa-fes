@@ -23,10 +23,16 @@ class UserController extends Controller
      */
     public function index(GetUsersRequest $request)
     {
-        $builder = User::query();
+        $builder = User::with('picture');
 
         if ($request->has('role')) {
-            $builder->where('role', $request->input('role'));
+            $role = $request->input('role');
+
+            $builder->where('role', $role);
+
+            if ($role === User::STUDENT) {
+                $builder->with('section');
+            }
         }
 
         return $builder->get();
@@ -40,7 +46,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->validated());
+        $user = User::create($request->all());
 
         if ($request->hasFile('picture')) {
             $user->picture()->save(File::process($request->file('picture')));
@@ -57,6 +63,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user->load('picture');
         return $user;
     }
 
@@ -69,7 +76,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->validated());
+        $user->update($request->all());
 
         if ($request->hasFile('picture')) {
             optional($user->picture)->delete();

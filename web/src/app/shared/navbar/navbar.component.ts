@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -11,8 +11,10 @@ import { Asker } from 'src/helpers';
 	templateUrl: './navbar.component.html',
 	styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 	@Input() user!: User;
+
+	picture = '/assets/logo-rounded.png';
 
 	showMenu = false;
 
@@ -22,6 +24,12 @@ export class NavbarComponent {
 		private toastr: ToastrService,
 		private auth: AuthService
 	) {}
+
+	ngOnInit(): void {
+		if (this.user.picture?.url) {
+			this.picture = this.user.picture.url;
+		}
+	}
 
 	toggleMenu() {
 		this.showMenu = !this.showMenu;

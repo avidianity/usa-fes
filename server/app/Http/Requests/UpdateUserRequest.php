@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Section;
 use App\Models\User;
 use App\Regex;
+use App\Rules\Boolean;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,15 +28,35 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
+        $user = $this->route('user');
+
+        $uniqueEmailRule = Rule::unique(User::class);
+
+        if ($user instanceof User) {
+            $uniqueEmailRule = $uniqueEmailRule->ignoreModel($user);
+        }
+
         return [
             'first_name' => ['nullable', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
-            'email' => ['nullable', 'email', Rule::unique(User::class)],
+            'email' => ['nullable', 'email', $uniqueEmailRule],
             'password' => ['nullable', 'string', 'max:255', 'confirmed'],
             'picture' => ['nullable', 'file'],
             'role' => ['nullable', Rule::in(User::ROLES)],
             'school_id' => [sprintf('required_if:role,%s,%s', User::FACULTY, User::STUDENT), 'string', 'max:255'],
-            'section_id' => [sprintf('required_if:role,%s', User::STUDENT), Rule::exists(Section::class, 'id')]
+            'section_id' => [sprintf('required_if:role,%s', User::STUDENT), Rule::exists(Section::class, 'id')],
+            'active' => ['nullable', new Boolean()]
         ];
+    }
+
+    protected function passedValidation()
+    {
+        parent::passedValidation();
+
+        $active = $this->input('active');
+
+        if (is_string($active)) {
+            $this->merge(['active' => $active === 'true']);
+        }
     }
 }
