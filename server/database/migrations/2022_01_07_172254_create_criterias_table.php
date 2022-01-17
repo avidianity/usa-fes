@@ -16,6 +16,7 @@ class CreateCriteriasTable extends Migration
         Schema::create('criterias', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->unsignedTinyInteger('order')->default(0);
             $table->timestamps();
         });
     }

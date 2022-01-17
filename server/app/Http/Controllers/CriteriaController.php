@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCriteriaRequest;
+use App\Http\Requests\UpdateCriteraOrderRequest;
 use App\Http\Requests\UpdateCriteriaRequest;
 use App\Models\Criteria;
 use App\Models\User;
@@ -71,5 +72,20 @@ class CriteriaController extends Controller
         $criteria->delete();
 
         return response('', 204);
+    }
+
+    public function reorder(UpdateCriteraOrderRequest $request)
+    {
+        $data = collect($request->validated()['criterias']);
+
+        $criterias = Criteria::findMany($data->map->id);
+
+        return $data->map->order->map(function ($order, $index) use ($criterias) {
+            $criteria = $criterias[$index];
+
+            $criteria->update(['order' => $order]);
+
+            return $criteria;
+        });
     }
 }

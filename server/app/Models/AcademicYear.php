@@ -54,6 +54,8 @@ class AcademicYear extends Model
                     ->update(['status' => static::EVALUATION_CLOSED]);
             }
         });
+
+        static::deleting(fn (self $academicYear) => $academicYear->evaluations->each->delete());
     }
 
     public function scopeActive($query, $active = true)
@@ -68,5 +70,10 @@ class AcademicYear extends Model
         }
 
         return $query->where('status', $status);
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
     }
 }

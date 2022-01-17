@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AcademicYear;
 use Illuminate\Database\Seeder;
 
 class AcademicYearSeeder extends Seeder
@@ -13,6 +14,7 @@ class AcademicYearSeeder extends Seeder
      */
     public function run()
     {
-        //
+        AcademicYear::factory()->create();
+        AcademicYear::factory()->active()->create();
     }
 }

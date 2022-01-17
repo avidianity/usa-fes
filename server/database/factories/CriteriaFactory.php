@@ -14,7 +14,8 @@ class CriteriaFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->text(10)
+            'title' => $this->faker->text(10),
+            'order' => $this->faker->unique->numberBetween(1, 255),
         ];
     }
 }

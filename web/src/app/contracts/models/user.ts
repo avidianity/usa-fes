@@ -1,5 +1,6 @@
 import { Model } from './model';
 import { Roles } from '../enums/roles.enum';
+import { Section } from './section';
 
 export class User extends Model {
 	public school_id?: string;
@@ -10,4 +11,5 @@ export class User extends Model {
 	public password = '';
 	public active = false;
 	public role: Roles = Roles.STUDENT;
+	public section?: Section;
 }

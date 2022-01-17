@@ -31,6 +31,10 @@ import { DataTablesModule } from 'angular-datatables';
 import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.component';
 import { SectionsListComponent } from './sections/sections-list/sections-list.component';
 import { SectionsFormComponent } from './sections/sections-form/sections-form.component';
+import { AcademicYearsListComponent } from './academic-years/academic-years-list/academic-years-list.component';
+import { AcademicYearsFormComponent } from './academic-years/academic-years-form/academic-years-form.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { UsersFormComponent } from './users/users-form/users-form.component';
 
 @NgModule({
 	declarations: [
@@ -50,9 +54,13 @@ import { SectionsFormComponent } from './sections/sections-form/sections-form.co
 		EvaluationReportsComponent,
 		SubjectsListComponent,
 		TitleComponent,
-  SubjectsFormComponent,
-  SectionsListComponent,
-  SectionsFormComponent,
+		SubjectsFormComponent,
+		SectionsListComponent,
+		SectionsFormComponent,
+		AcademicYearsListComponent,
+		AcademicYearsFormComponent,
+		UsersListComponent,
+		UsersFormComponent,
 	],
 	imports: [
 		FormsModule,

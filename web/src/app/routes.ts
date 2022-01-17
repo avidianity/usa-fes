@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AcademicYearsFormComponent } from './academic-years/academic-years-form/academic-years-form.component';
+import { AcademicYearsListComponent } from './academic-years/academic-years-list/academic-years-list.component';
 import { AcademicYearsComponent } from './academic-years/academic-years.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -14,6 +16,8 @@ import { SectionsComponent } from './sections/sections.component';
 import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.component';
 import { SubjectsListComponent } from './subjects/subjects-list/subjects-list.component';
 import { SubjectsComponent } from './subjects/subjects.component';
+import { UsersFormComponent } from './users/users-form/users-form.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
 import { UsersComponent } from './users/users.component';
 
 export const routes: Routes = [
@@ -72,6 +76,20 @@ export const routes: Routes = [
 			{
 				path: 'academic-years',
 				component: AcademicYearsComponent,
+				children: [
+					{
+						path: '',
+						component: AcademicYearsListComponent,
+					},
+					{
+						path: 'add',
+						component: AcademicYearsFormComponent,
+					},
+					{
+						path: ':id/edit',
+						component: AcademicYearsFormComponent,
+					},
+				],
 			},
 			{
 				path: 'questionnaires',
@@ -88,23 +106,83 @@ export const routes: Routes = [
 			{
 				path: 'administrators',
 				component: UsersComponent,
-				data: {
-					role: Roles.ADMIN,
-				},
+				children: [
+					{
+						path: '',
+						component: UsersListComponent,
+						data: {
+							role: Roles.ADMIN,
+						},
+					},
+					{
+						path: 'add',
+						component: UsersFormComponent,
+						data: {
+							role: Roles.ADMIN,
+						},
+					},
+					{
+						path: ':id/edit',
+						component: UsersFormComponent,
+						data: {
+							role: Roles.ADMIN,
+						},
+					},
+				],
 			},
 			{
 				path: 'faculties',
 				component: UsersComponent,
-				data: {
-					role: Roles.FACULTY,
-				},
+				children: [
+					{
+						path: '',
+						component: UsersListComponent,
+						data: {
+							role: Roles.FACULTY,
+						},
+					},
+					{
+						path: 'add',
+						component: UsersFormComponent,
+						data: {
+							role: Roles.FACULTY,
+						},
+					},
+					{
+						path: ':id/edit',
+						component: UsersFormComponent,
+						data: {
+							role: Roles.FACULTY,
+						},
+					},
+				],
 			},
 			{
 				path: 'students',
 				component: UsersComponent,
-				data: {
-					role: Roles.STUDENT,
-				},
+				children: [
+					{
+						path: '',
+						component: UsersListComponent,
+						data: {
+							role: Roles.STUDENT,
+						},
+					},
+					{
+						path: 'add',
+						component: UsersFormComponent,
+						data: {
+							role: Roles.STUDENT,
+						},
+					},
+					{
+						path: ':id/edit',
+						component: UsersFormComponent,
+						data: {
+							role: Roles.STUDENT,
+						},
+					},
+				],
 			},
 		],
 	},

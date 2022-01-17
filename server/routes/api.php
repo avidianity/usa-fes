@@ -37,6 +37,9 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('analytics', AnalyticsController::class)->name('analytics');
 
+    Route::put('criterias/reorder', [CriteriaController::class, 'reorder'])->name('criterias.reorder');
+    Route::patch('criterias/reorder', [CriteriaController::class, 'reorder'])->name('criterias.reorder');
+
     Route::apiResources([
         'subjects' => SubjectController::class,
         'academic-years' => AcademicYearController::class,

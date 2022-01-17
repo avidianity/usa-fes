@@ -10,7 +10,8 @@ class Criteria extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title'
+        'title',
+        'order'
     ];
 
     public function questions()

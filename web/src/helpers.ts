@@ -47,8 +47,10 @@ export class Asker {
 	}
 }
 
-export function url(path: string) {
-	return `${environment.serverUrl}${path}`;
+export function url(path: string, params?: Record<string, string>) {
+	return `${environment.serverUrl}${path}${
+		params ? `?${new URLSearchParams(params).toString()}` : ''
+	}`;
 }
 
 export function errorToStrings(error: Error) {

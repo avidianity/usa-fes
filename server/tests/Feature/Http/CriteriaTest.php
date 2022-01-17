@@ -45,7 +45,7 @@ it('creates a criteria', function () {
 });
 
 it('updates a criteria', function () {
-    $data = Criteria::factory()->data();
+    $data = collect(Criteria::factory()->data())->except('order')->toArray();
 
     $criteria = Criteria::factory()->create();
 
@@ -64,4 +64,36 @@ it('deletes a criteria', function () {
         ->assertNoContent();
 
     assertDatabaseMissing(Criteria::class, ['id' => $criteria->id]);
+});
+
+it('reorders criterias', function () {
+    Criteria::factory(3)->create();
+
+    $orders = [
+        [
+            'id' => 1,
+            'order' => 3,
+        ],
+        [
+            'id' => 2,
+            'order' => 1,
+        ],
+        [
+            'id' => 3,
+            'order' => 2
+        ]
+    ];
+
+    $data = [
+        'criterias' => $orders
+    ];
+
+    putJson(route('criterias.reorder'), $data)
+        ->assertOk();
+
+    collect($orders)->each(function ($order) {
+        $criteria = Criteria::findOrFail($order['id']);
+
+        expect($criteria->order)->toBe($order['order']);
+    });
 });
