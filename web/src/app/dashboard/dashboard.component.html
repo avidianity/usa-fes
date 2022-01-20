@@ -1,7 +1,14 @@
-<div class="flex h-screen w-full" *ngIf="user !== null">
-	<app-sidebar [user]="user"></app-sidebar>
+<div class="flex flex-col md:flex-row h-screen w-full" *ngIf="user !== null">
+	<app-sidebar
+		[toggle]="sidebarToggle"
+		[onSidebarToggle]="onSidebarToggle"
+		[user]="user"
+	></app-sidebar>
 	<div class="h-full w-full bg-gray-100">
-		<app-navbar [user]="user"></app-navbar>
+		<app-navbar
+			[onSidebarToggle]="onSidebarToggle"
+			[user]="user"
+		></app-navbar>
 		<div class="pt-6 px-5">
 			<router-outlet></router-outlet>
 		</div>

@@ -1,4 +1,7 @@
-<div class="h-full w-72 bg-white shadow-lg drop-shadow-lg">
+<div
+	class="h-full w-full md:w-72 bg-white shadow-lg drop-shadow-lg md:block fixed md:static z-10"
+	[ngClass]="{ block: toggle, hidden: !toggle }"
+>
 	<div class="py-4 border-b border-gray-200 flex">
 		<div class="mx-auto flex">
 			<img
@@ -12,6 +15,17 @@
 		</div>
 	</div>
 	<ul class="list-none w-full">
+		<li>
+			<button
+				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500 md:hidden"
+				(click)="toggleSidebar()"
+			>
+				<span class="pt-1">
+					<i class="las la-times-circle text-2xl"></i>
+				</span>
+				<span class="ml-2">Close</span>
+			</button>
+		</li>
 		<li>
 			<a
 				class="flex items-center w-full pl-9 py-2 hover:cursor-pointer hover:text-white hover:bg-red-500"

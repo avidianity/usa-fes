@@ -11,6 +11,8 @@ import { StateService } from '../state.service';
 export class DashboardComponent implements OnInit {
 	user!: User;
 
+	sidebarToggle = false;
+
 	constructor(private state: StateService, private router: Router) {}
 
 	ngOnInit(): void {
@@ -23,4 +25,8 @@ export class DashboardComponent implements OnInit {
 			this.user = user;
 		}
 	}
+
+	onSidebarToggle = () => {
+		this.sidebarToggle = !this.sidebarToggle;
+	};
 }
