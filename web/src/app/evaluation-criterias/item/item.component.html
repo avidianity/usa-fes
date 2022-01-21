@@ -1,0 +1,41 @@
+<li
+	class="py-3 px-4 border-b border-gray-300 flex items-center first:rounded-t"
+>
+	<i class="las la-bars text-xl mr-2"></i>
+	<h4 class="text-md">
+		{{ criteria.title }}
+	</h4>
+	<div class="relative ml-auto">
+		<i
+			class="las la-ellipsis-v text-xl hover:cursor-pointer"
+			(click)="toggleMenu()"
+		></i>
+		<div
+			class="bg-white shadow-lg rounded absolute border border-gray-100 -left-32 top-0 p-2"
+			*ngIf="menuOpen"
+		>
+			<ul class="list-none">
+				<li class="text-center my-1">
+					<button class="btn-emerald w-full" (click)="moveUp()">
+						Move Up
+					</button>
+				</li>
+				<li class="text-center my-1">
+					<button class="btn-gray w-full" (click)="moveDown()">
+						Move Down
+					</button>
+				</li>
+				<li class="text-center my-1">
+					<button class="btn-yellow w-full" (click)="edit()">
+						Edit
+					</button>
+				</li>
+				<li class="text-center my-1">
+					<button class="btn-rose w-full" (click)="delete()">
+						Delete
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</li>

@@ -1,1 +1,63 @@
-<p>evaluation-criterias works!</p>
+<app-title title="Criteria List"></app-title>
+
+<app-card class="mt-3">
+	<div class="flex flex-wrap -mx-3 mb-2">
+		<app-card class="w-full lg:w-1/3 px-4">
+			<form (ngSubmit)="submit()">
+				<h4 class="text-lg font-bold">Criteria Form</h4>
+				<hr class="mt-2 mb-4" />
+				<label class="form-label" for="title">Criteria</label>
+				<input
+					class="form-control"
+					name="title"
+					id="title"
+					type="text"
+					placeholder="Criteria"
+					[(ngModel)]="data.title"
+					[disabled]="processing"
+				/>
+				<div class="flex mt-4">
+					<button
+						type="submit"
+						class="btn-primary mr-1 ml-auto"
+						[disabled]="processing"
+					>
+						Save
+					</button>
+					<button
+						type="button"
+						class="btn-gray"
+						[disabled]="processing"
+						(click)="clearCriteria()"
+					>
+						Cancel
+					</button>
+				</div>
+			</form>
+		</app-card>
+		<app-card class="w-full lg:w-2/3 px-4">
+			<form>
+				<div class="flex">
+					<h4 class="text-lg font-bold">Criteria List</h4>
+					<button
+						type="submit"
+						class="btn-primary ml-auto"
+						(click)="saveOrder()"
+					>
+						Save Order
+					</button>
+				</div>
+				<ul class="list-none mt-4">
+					<app-evaluation-criteria-item
+						*ngFor="let criteria of criterias"
+						[criteria]="criteria"
+						[onMoveUp]="moveUp"
+						[onMoveDown]="moveDown"
+						[onEdit]="edit"
+						[onDelete]="delete"
+					></app-evaluation-criteria-item>
+				</ul>
+			</form>
+		</app-card>
+	</div>
+</app-card>

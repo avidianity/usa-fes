@@ -35,6 +35,8 @@ import { AcademicYearsListComponent } from './academic-years/academic-years-list
 import { AcademicYearsFormComponent } from './academic-years/academic-years-form/academic-years-form.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UsersFormComponent } from './users/users-form/users-form.component';
+import { CardComponent } from './shared/card/card.component';
+import { ItemComponent } from './evaluation-criterias/item/item.component';
 
 @NgModule({
 	declarations: [
@@ -61,6 +63,8 @@ import { UsersFormComponent } from './users/users-form/users-form.component';
 		AcademicYearsFormComponent,
 		UsersListComponent,
 		UsersFormComponent,
+  CardComponent,
+  ItemComponent,
 	],
 	imports: [
 		FormsModule,
