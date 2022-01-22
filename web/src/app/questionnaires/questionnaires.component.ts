@@ -161,4 +161,8 @@ export class QuestionnairesComponent implements OnInit, OnDestroy {
 				.add(() => this.fetchItems());
 		}
 	}
+
+	getInputName(criteria: Criteria, question: Question) {
+		return `criteria[${criteria.id}][question][${question.id}]`;
+	}
 }

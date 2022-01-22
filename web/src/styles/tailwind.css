@@ -13,22 +13,22 @@
 	}
 
 	.btn-primary {
-		@apply bg-blue-600 py-1 px-4 text-white rounded hover:bg-blue-400 disabled:bg-blue-400 disabled:cursor-not-allowed;
+		@apply bg-blue-600 py-1 px-4 text-white rounded hover:bg-blue-400 disabled:bg-blue-400 disabled:cursor-not-allowed select-none;
 	}
 
 	.btn-rose {
-		@apply bg-rose-600 py-1 px-4 text-white rounded hover:bg-rose-400 disabled:bg-rose-400 disabled:cursor-not-allowed;
+		@apply bg-rose-600 py-1 px-4 text-white rounded hover:bg-rose-400 disabled:bg-rose-400 disabled:cursor-not-allowed select-none;
 	}
 
 	.btn-emerald {
-		@apply bg-emerald-600 py-1 px-4 text-white rounded hover:bg-emerald-400 disabled:bg-emerald-400 disabled:cursor-not-allowed;
+		@apply bg-emerald-600 py-1 px-4 text-white rounded hover:bg-emerald-400 disabled:bg-emerald-400 disabled:cursor-not-allowed select-none;
 	}
 
 	.btn-yellow {
-		@apply bg-yellow-600 py-1 px-4 text-white rounded hover:bg-yellow-400 disabled:bg-yellow-400 disabled:cursor-not-allowed;
+		@apply bg-yellow-600 py-1 px-4 text-white rounded hover:bg-yellow-400 disabled:bg-yellow-400 disabled:cursor-not-allowed select-none;
 	}
 
 	.btn-gray {
-		@apply bg-gray-600 py-1 px-4 text-white rounded hover:bg-gray-400 disabled:bg-gray-400 disabled:cursor-not-allowed;
+		@apply bg-gray-600 py-1 px-4 text-white rounded hover:bg-gray-400 disabled:bg-gray-400 disabled:cursor-not-allowed select-none;
 	}
 }
