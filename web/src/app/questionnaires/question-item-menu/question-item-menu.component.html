@@ -1,0 +1,31 @@
+<div class="relative mr-1">
+	<i
+		class="las la-ellipsis-v text-xl hover:cursor-pointer"
+		(click)="toggleMenu()"
+	></i>
+	<div
+		class="bg-white shadow-lg rounded absolute border border-gray-200 -left-36 top-0 p-2"
+		*ngIf="menuOpen"
+	>
+		<ul class="list-none">
+			<li class="text-center my-1">
+				<button class="btn-emerald w-full" (click)="moveUp()">
+					Move Up
+				</button>
+			</li>
+			<li class="text-center my-1">
+				<button class="btn-gray w-full" (click)="moveDown()">
+					Move Down
+				</button>
+			</li>
+			<li class="text-center my-1">
+				<button class="btn-yellow w-full" (click)="edit()">Edit</button>
+			</li>
+			<li class="text-center my-1">
+				<button class="btn-rose w-full" (click)="delete()">
+					Delete
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>
