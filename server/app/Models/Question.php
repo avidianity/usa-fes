@@ -11,8 +11,16 @@ class Question extends Model
 
     protected $fillable = [
         'criteria_id',
-        'description'
+        'description',
+        'order'
     ];
+
+    protected static function booted()
+    {
+        static::creating(function (self $question) {
+            $question->order = static::count() + 1;
+        });
+    }
 
     public function criteria()
     {

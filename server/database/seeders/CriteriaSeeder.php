@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Criteria;
 use Illuminate\Database\Seeder;
 
 class CriteriaSeeder extends Seeder
@@ -13,6 +14,6 @@ class CriteriaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Criteria::factory(5)->create();
     }
 }

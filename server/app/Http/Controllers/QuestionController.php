@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\UpdateQuestionOrderRequest;
 use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Criteria;
 use App\Models\Question;
@@ -88,5 +89,21 @@ class QuestionController extends Controller
         $question->delete();
 
         return response('', 204);
+    }
+
+    public function reorder(UpdateQuestionOrderRequest $request)
+    {
+        $data = collect($request->validated()['criterias']);
+
+        return $data->map(function ($item) {
+            $criteria_id = $item['id'];
+            $questions = collect($item['questions']);
+
+            return $questions->map(function ($item) use ($criteria_id) {
+                $question = Question::where('criteria_id', $criteria_id)->findOrFail($item['id']);
+                $question->update(['order' => $item['order']]);
+                return $question;
+            });
+        });
     }
 }

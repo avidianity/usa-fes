@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SectionSeeder::class);
         $this->call(SubjectSeeder::class);
         $this->call(AcademicYearSeeder::class);
+        $this->call(CriteriaSeeder::class);
     }
 }

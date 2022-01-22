@@ -91,3 +91,46 @@ it('deletes a question', function () {
 
     assertDatabaseMissing(Question::class, ['id' => $question->id]);
 });
+
+it('reorders questions', function () {
+    $criteria = Criteria::factory()->create();
+
+    Question::factory(3)
+        ->for($criteria)
+        ->create();
+
+    $orders = [
+        [
+            'id' => 1,
+            'questions' => [
+                [
+                    'id' => 1,
+                    'order' => 3,
+                ],
+                [
+                    'id' => 2,
+                    'order' => 1,
+                ],
+                [
+                    'id' => 3,
+                    'order' => 2
+                ]
+            ]
+        ],
+    ];
+
+    $data = [
+        'criterias' => $orders
+    ];
+
+    putJson(route('criterias.questions.reorder'), $data)
+        ->assertOk();
+
+    collect($orders)->each(function ($order) {
+        collect($order['questions'])->each(function ($order) {
+            $question = Question::findOrFail($order['id']);
+
+            expect($question->order)->toBe($order['order']);
+        });
+    });
+});

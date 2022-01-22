@@ -44,14 +44,25 @@ class AcademicYear extends Model
     protected static function booted()
     {
         static::saving(function (self $academicYear) {
+            $id = $academicYear->getKey();
             if ($academicYear->active) {
-                static::where('active', true)
-                    ->update(['active' => false]);
+                $builder = static::where('active', true);
+
+                if ($id) {
+                    $builder->where('id', '!=', $id);
+                }
+
+                $builder->update(['active' => false]);
             }
 
             if ($academicYear->status === static::EVALUATION_ONGOING) {
-                static::where('status', static::EVALUATION_ONGOING)
-                    ->update(['status' => static::EVALUATION_CLOSED]);
+                $builder = static::where('status', static::EVALUATION_ONGOING);
+
+                if ($id) {
+                    $builder->where('id', '!=', $id);
+                }
+
+                $builder->update(['status' => static::EVALUATION_CLOSED]);
             }
         });
 

@@ -15,7 +15,7 @@ class SectionFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->text(10),
+            'name' => Str::upper($this->faker->unique()->text(5)),
             'level' => $this->faker->numberBetween(1, 5),
             'section' => Str::upper($this->faker->randomLetter)
         ];

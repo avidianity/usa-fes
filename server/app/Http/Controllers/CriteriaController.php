@@ -22,7 +22,9 @@ class CriteriaController extends Controller
      */
     public function index()
     {
-        return Criteria::all();
+        return Criteria::orderBy('order')
+            ->with('questions')
+            ->get();
     }
 
     /**
@@ -78,13 +80,9 @@ class CriteriaController extends Controller
     {
         $data = collect($request->validated()['criterias']);
 
-        $criterias = Criteria::findMany($data->map->id);
-
-        return $data->map->order->map(function ($order, $index) use ($criterias) {
-            $criteria = $criterias[$index];
-
-            $criteria->update(['order' => $order]);
-
+        return $data->map(function ($item) {
+            $criteria = Criteria::findOrFail($item['id']);
+            $criteria->update(['order' => $item['order']]);
             return $criteria;
         });
     }
