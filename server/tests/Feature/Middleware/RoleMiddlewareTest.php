@@ -18,7 +18,7 @@ it('throws an exception on a non-valid role', function () {
     try {
         $middleware->handle($request, function () {
             return true;
-        }, 'not-a-valid-role');
+        }, 'not-a-valid-role,eyoooo');
     } catch (Throwable $exception) {
         expect($exception)->toBeInstanceOf(InvalidRoleException::class);
     }

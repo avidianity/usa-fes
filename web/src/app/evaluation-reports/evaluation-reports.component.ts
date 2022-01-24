@@ -43,6 +43,8 @@ export class EvaluationReportsComponent implements OnInit, OnDestroy {
 				this.fetchFaculties();
 			} else if (user.role === Roles.FACULTY) {
 				this.fetchForFaculty(user.id);
+				this.faculties = [user];
+				this.faculty_id = user.id?.toString()!;
 			}
 		}
 		this.analyticsSubscription = this.mainPanelService.analytics.subscribe(

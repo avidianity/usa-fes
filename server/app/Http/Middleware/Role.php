@@ -14,12 +14,12 @@ class Role
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param string $roles
+     * @param string[] $roles
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string $roles)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        $roles = collect(explode(',', $roles))->map(fn (string $role) => trim($role));
+        $roles = collect($roles)->map(fn (string $role) => trim($role));
 
         $roles->each(function (string $role) {
             if (!in_array($role, User::ROLES)) {

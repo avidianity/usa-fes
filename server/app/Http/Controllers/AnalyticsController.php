@@ -11,7 +11,7 @@ class AnalyticsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(sprintf('role:%s', collect([User::ADMIN, User::FACULTY])->join(',')));
+        $this->middleware(sprintf('role:%s,%s', User::ADMIN, User::FACULTY));
     }
 
     public function __invoke(Request $request)
