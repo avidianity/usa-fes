@@ -2,7 +2,11 @@
 
 namespace Tests\Feature\Http;
 
+use App\Models\Answer;
 use App\Models\Criteria;
+use App\Models\Question;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\assertDatabaseHas;
@@ -96,4 +100,24 @@ it('reorders criterias', function () {
 
         expect($criteria->order)->toBe($order['order']);
     });
+});
+
+it('fetches criterias for faculty', function () {
+    $faculty = User::factory()->faculty()->create();
+
+    $criterias = collect(Criteria::factory(3)->create());
+
+    $criterias->map(fn (Criteria $criteria) => Question::factory(5)->for($criteria)->create())
+        ->map(
+            fn (Collection $questions) => $questions->map(
+                fn (Question $question) => Answer::factory(25)
+                    ->forStudent()
+                    ->for($faculty, 'faculty')
+                    ->for($question)
+                    ->create()
+            )
+        );
+
+    getJson(route('criterias.for-faculty', ['faculty' => $faculty->id]))
+        ->assertOk();
 });

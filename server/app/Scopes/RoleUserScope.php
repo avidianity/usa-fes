@@ -23,8 +23,10 @@ class RoleUserScope implements Scope
          */
         $user = auth()->user();
 
-        if ($user && $user->role !== User::ADMIN) {
-            $builder->where('role', '!=', User::ADMIN);
+        if ($user) {
+            if ($user->role !== User::ADMIN) {
+                $builder->where('role', '!=', User::ADMIN);
+            }
         }
     }
 }

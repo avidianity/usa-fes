@@ -98,4 +98,15 @@ class UserController extends Controller
 
         return response('', 204);
     }
+
+    public function faculties()
+    {
+        return User::role(User::FACULTY)
+            ->whereHas('evaluations')
+            ->with([
+                'answersAsFaculty',
+                'evaluations'
+            ])
+            ->get();
+    }
 }

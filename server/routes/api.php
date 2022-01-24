@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('criterias/questions/reorder', [QuestionController::class, 'reorder'])->name('criterias.questions.reorder');
     Route::patch('criterias/questions/reorder', [QuestionController::class, 'reorder'])->name('criterias.questions.reorder');
 
+    Route::get('criterias/for-faculty/{faculty}', [CriteriaController::class, 'forFaculty'])->name('criterias.for-faculty');
+
     Route::apiResources([
         'subjects' => SubjectController::class,
         'academic-years' => AcademicYearController::class,

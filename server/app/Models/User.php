@@ -97,4 +97,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Answer::class, 'faculty_id');
     }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class, 'faculty_id');
+    }
 }
