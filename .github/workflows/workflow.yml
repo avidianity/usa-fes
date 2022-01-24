@@ -49,4 +49,4 @@ jobs:
       run: yarn
     - name: Run test
       working-directory: ./web
-      run:  yarn test --browers=ChromeHeadless --watch=false
+      run:  yarn test --browsers=ChromeHeadless --watch=false
