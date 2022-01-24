@@ -45,9 +45,6 @@ jobs:
     - name: Install Dependencies
       working-directory: ./web
       run: yarn
-    - name: Run build
-      working-directory: ./web
-      run:  yarn build
     - name: Run test
       working-directory: ./web
       run:  yarn test
