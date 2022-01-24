@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { flatten, isObject } from 'lodash';
+import { flatten, isObject } from 'lodash-es';
 import { environment } from './environments/environment';
 
 declare var require: any;
@@ -51,6 +51,23 @@ export function url(path: string, params?: Record<string, string>) {
 	return `${environment.serverUrl}${path}${
 		params ? `?${new URLSearchParams(params).toString()}` : ''
 	}`;
+}
+
+export function numberToWord(value: number) {
+	switch (value) {
+		case 1:
+			return 'one';
+		case 2:
+			return 'two';
+		case 3:
+			return 'three';
+		case 4:
+			return 'four';
+		case 5:
+			return 'five';
+		default:
+			throw new Error('Invalid value');
+	}
 }
 
 export function errorToStrings(error: Error) {

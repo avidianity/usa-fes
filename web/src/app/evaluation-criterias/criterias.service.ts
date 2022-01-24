@@ -74,4 +74,11 @@ export class CriteriasService implements EloquentContract<Criteria> {
 			{ headers: this.headers() }
 		);
 	}
+
+	fetchForFaculty(faculty_id: any) {
+		return this.http.get<Criteria[]>(
+			url(`/api/criterias/for-faculty/${faculty_id}`),
+			{ headers: this.headers() }
+		);
+	}
 }

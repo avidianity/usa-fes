@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { isString } from 'lodash';
+import { isString } from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';
 import { Section } from 'src/app/contracts/models/section';
 import { SectionsService } from 'src/app/sections/sections.service';

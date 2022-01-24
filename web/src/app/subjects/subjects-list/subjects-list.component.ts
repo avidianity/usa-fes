@@ -3,7 +3,7 @@ import { Subject } from 'src/app/contracts/models/subject';
 import { SubjectsService } from '../subjects.service';
 import { Subject as Trigger } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
-import { truncate } from 'lodash';
+import { truncate } from 'lodash-es';
 import { Asker } from 'src/helpers';
 import { ToastrService } from 'ngx-toastr';
 

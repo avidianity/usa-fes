@@ -36,7 +36,8 @@
 							"node_modules/jquery/dist/jquery.min.js",
 							"node_modules/datatables.net/js/jquery.dataTables.min.js",
 							"node_modules/datatables.net-colreorder/js/dataTables.colReorder.js"
-						]
+						],
+						"allowedCommonJsDependencies": ["sweetalert"]
 					},
 					"configurations": {
 						"production": {

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import FormData from '@avidian/form-data';
-import { isEmpty, isString } from 'lodash';
+import { isEmpty, isString } from 'lodash-es';
 import { url } from 'src/helpers';
 import { EloquentContract } from '../contracts/eloquent.contract';
 import { Roles } from '../contracts/enums/roles.enum';

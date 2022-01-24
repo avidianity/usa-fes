@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isString } from 'lodash';
+import { isString } from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';
 import pluralize from 'pluralize';
 import { Observable, Subscription } from 'rxjs';
@@ -90,8 +90,6 @@ export class UsersFormComponent implements OnInit {
 		this.processing = true;
 
 		this.data.role = this.role;
-
-		console.log(this.data);
 
 		this.service
 			.save(this.data)
