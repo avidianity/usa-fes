@@ -42,6 +42,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 16.x
+        cache: 'npm'
+        cache-dependency-path: ./web/yarn.lock
     - name: Install Dependencies
       working-directory: ./web
       run: yarn
