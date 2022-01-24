@@ -10,6 +10,8 @@ import { User } from 'src/app/contracts/models/user';
 export class SidebarComponent implements OnInit {
 	@Input() user!: User;
 
+	roles = Roles;
+
 	title = '';
 
 	@Input() toggle!: boolean;

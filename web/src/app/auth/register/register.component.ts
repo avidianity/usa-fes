@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { isString } from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';
+import { Roles } from 'src/app/contracts/enums/roles.enum';
 import { Section } from 'src/app/contracts/models/section';
 import { SectionsService } from 'src/app/sections/sections.service';
 import { errorToStrings } from 'src/helpers';
@@ -29,6 +30,8 @@ export class RegisterComponent implements OnInit {
 	data = new Register();
 
 	preview: null | string = null;
+
+	roles = [Roles.FACULTY, Roles.STUDENT];
 
 	ngOnInit(): void {
 		this.auth.redirectIfAuthenticated();

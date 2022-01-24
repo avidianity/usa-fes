@@ -18,8 +18,9 @@ uses(RefreshDatabase::class);
 
 it('registers a user', function () {
     $section = Section::factory()->create();
+    $faker = faker();
 
-    $password = faker()->password;
+    $password = $faker->password;
 
     Storage::fake();
 
@@ -27,7 +28,8 @@ it('registers a user', function () {
         'password' => $password,
         'password_confirmation' => $password,
         'section_id' => $section->id,
-        'picture' => UploadedFile::fake()->image('picture.jpg')
+        'picture' => UploadedFile::fake()->image('picture.jpg'),
+        'role' => $faker->randomElement([User::FACULTY, User::STUDENT])
     ] + User::factory()->student()->data();
 
     $response = postJson(route('auth.register'), $data)

@@ -9,13 +9,13 @@ use App\Models\Answer;
 use App\Models\Criteria;
 use App\Models\Question;
 use App\Models\User;
-use Request;
+use Illuminate\Http\Request;
 
 class CriteriaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(sprintf('role:%s', User::ADMIN))->except('index', 'show');
+        $this->middleware(sprintf('role:%s', User::ADMIN))->except('index', 'show', 'forFaculty');
         $this->middleware(sprintf('role:%s,%s', User::ADMIN, User::FACULTY))->only('forFaculty');
     }
 
