@@ -16,12 +16,12 @@ export class SidebarComponent implements OnInit {
 
 	@Input() toggle!: boolean;
 
-	@Input() onSidebarToggle?: () => void;
+	@Input() sidebarToggle?: () => void;
 
 	constructor() {}
 
 	toggleSidebar() {
-		this.onSidebarToggle?.();
+		this.sidebarToggle?.();
 	}
 
 	ngOnInit(): void {

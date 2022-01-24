@@ -49,7 +49,11 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
-        return $request->user('sanctum');
+        $user = $request->user();
+
+        $user->load('picture');
+
+        return $user;
     }
 
     public function logout(Request $request)

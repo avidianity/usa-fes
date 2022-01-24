@@ -14,7 +14,7 @@ import { Asker } from 'src/helpers';
 export class NavbarComponent implements OnInit {
 	@Input() user!: User;
 
-	@Input() onSidebarToggle?: () => void;
+	@Input() sidebarToggle?: () => void;
 
 	picture = '/assets/logo-rounded.png';
 
@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
 	}
 
 	toggleSidebar() {
-		this.onSidebarToggle?.();
+		this.sidebarToggle?.();
 	}
 
 	toggleMenu() {

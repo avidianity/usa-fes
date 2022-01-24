@@ -1,9 +1,21 @@
 <div
-	class="flex flex-wrap h-screen w-full items-center justify-center bg-red-500"
+	class="flex flex-wrap w-full items-center justify-center bg-red-500"
+	[ngClass]="{
+		'h-screen': !isStarted,
+		'h-full': isStarted,
+		'md:py-8': isStarted
+	}"
 >
-	<div class="bg-white w-11/12 md:w-2/3 lg:w-3/5 px-4 py-5 rounded shadow">
+	<div class="bg-white w-full md:w-2/3 lg:w-3/5 px-4 py-5 rounded shadow">
+		<div class="flex">
+			<img
+				[src]="user.picture ? user.picture.url : '/assets/user.png'"
+				class="mx-auto shadow-lg h-28 w-28 rounded-full border border-gray-300 hover:cursor-pointer"
+				[alt]="user.name"
+			/>
+		</div>
 		<h3 class="text-3xl">Hi {{ user.name }}!</h3>
-		<div class="pt-1" *ngIf="faculties.length > 0">
+		<div class="pt-1" *ngIf="faculties.length > 0 && !isStarted">
 			<p>
 				Select a <code class="text-red-500">Faculty</code> to get
 				started.
@@ -28,17 +40,138 @@
 					</option>
 				</select>
 			</div>
-			<div class="pt-4">
-				<button
-					class="btn-primary w-full py-2"
-					[disabled]="faculty === null"
-				>
-					Get Started
-				</button>
+			<div class="flex mt-4 flex-wrap -mx-3">
+				<div class="w-full md:w-1/2 px-2 py-1">
+					<button
+						class="btn-primary w-full py-2"
+						[disabled]="faculty === null"
+						(click)="start()"
+					>
+						Get Started
+					</button>
+				</div>
+				<div class="w-full md:w-1/2 px-2 py-1">
+					<button class="btn-rose w-full py-2" (click)="logout()">
+						Logout
+					</button>
+				</div>
 			</div>
 		</div>
+		<div class="pt-1 md:px-4" *ngIf="faculty !== null && isStarted">
+			<hr class="my-2" />
+			<div class="flex flex-wrap -mx-3">
+				<div class="w-full md:w-1/2">
+					<h6 class="font-bold">Faculty: {{ faculty.name }}</h6>
+				</div>
+				<div class="w-full md:w-1/2">
+					<h6 class="font-bold">
+						Academic Year: ({{ analytics.academic_year?.year }})
+						{{ analytics.academic_year?.semester }} Semester
+					</h6>
+				</div>
+				<div class="w-full md:w-1/2">
+					<h6 class="font-bold">
+						School ID: {{ faculty.school_id }}
+					</h6>
+				</div>
+				<div class="w-full md:w-1/2">
+					<h6 class="font-bold hidden">Total Students Evaluated:</h6>
+				</div>
+				<div class="w-full">
+					<div class="mt-4 border border-emerald-500 px-3 pt-2">
+						<h4 class="text-lg">Rating Legend</h4>
+						<p class="mb-4">
+							5 = Strongly Agree, 4 = Agree, 3 = Uncertain, 2 =
+							Disagree, 1 = Strongly Disagree
+						</p>
+					</div>
+				</div>
+			</div>
+			<form
+				id="evaluation-form"
+				class="px-1 md:px-4"
+				(ngSubmit)="submit()"
+			>
+				<div
+					class="my-2"
+					*ngFor="
+						let criteria of criterias;
+						let criteriaIndex = index
+					"
+				>
+					<div
+						class="bg-gray-600 text-white px-2 md:px-4 py-2 flex flex-wrap -mx-3"
+					>
+						<div class="w-1/2">
+							<h6 class="font-bold">
+								{{ criteria.title }}
+							</h6>
+						</div>
+						<div class="w-1/2">
+							<div class="flex flex-wrap -mx-3">
+								<div
+									class="w-1/5 text-center"
+									*ngFor="let number of [5, 4, 3, 2, 1]"
+								>
+									<h6 class="font-bold">
+										{{ number }}
+									</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						class="px-2 md:px-4 py-2 flex flex-wrap -mx-3"
+						*ngFor="
+							let question of criteria.questions;
+							let questionIndex = index
+						"
+					>
+						<div class="w-1/2">
+							<p class="flex items-center pr-1 md:pl-0">
+								{{ question.description }}
+							</p>
+						</div>
+						<div class="w-1/2">
+							<div class="flex flex-wrap -mx-3">
+								<div
+									class="w-1/5 text-center"
+									*ngFor="let number of [5, 4, 3, 2, 1]"
+								>
+									<input
+										type="radio"
+										[name]="getInputName(question)"
+										[(ngModel)]="
+											answers[criteriaIndex][
+												questionIndex
+											].rating
+										"
+										[value]="number"
+										[disabled]="processing"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button
+					type="submit"
+					class="btn-primary w-full py-2 mt-3"
+					[disabled]="processing"
+				>
+					{{ processing ? '' : 'Submit' }}
+					<i
+						class="las la-spinner animate-spin"
+						*ngIf="processing"
+					></i>
+				</button>
+			</form>
+		</div>
 		<div class="pt-1" *ngIf="loaded && faculties.length === 0">
-			<p>There are no faculties to evaluate.</p>
+			<p class="mb-2">There are no faculties to evaluate.</p>
+			<button class="btn-rose w-full py-2" (click)="logout()">
+				Logout
+			</button>
 		</div>
 	</div>
 </div>
