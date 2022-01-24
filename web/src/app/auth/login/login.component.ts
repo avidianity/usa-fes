@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Roles } from 'src/app/contracts/enums/roles.enum';
 import { StateService } from 'src/app/state.service';
 import { errorToStrings } from 'src/helpers';
 import { AuthService } from '../auth.service';
@@ -43,7 +44,11 @@ export class LoginComponent implements OnInit {
 
 					this.state.set('token', data.token).set('user', data.user);
 					this.toastr.success(`Welcome back, ${data.user.name}!`);
-					this.router.navigateByUrl('/dashboard');
+					if (data.user.role === Roles.STUDENT) {
+						this.router.navigateByUrl('/evaluate');
+					} else {
+						this.router.navigateByUrl('/dashboard');
+					}
 				},
 				error: (error: HttpErrorResponse) =>
 					errorToStrings(error).forEach((error) =>

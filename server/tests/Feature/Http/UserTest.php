@@ -102,3 +102,15 @@ it('deletes a user', function () {
 
     assertDatabaseMissing(User::class, ['id' => $user->id]);
 });
+
+it('fetches faculties', function () {
+    User::factory(25)->create();
+
+    $response = getJson(route('users.faculties'))
+        ->assertOk();
+
+    collect($response->json())->map(fn ($item) => new User($item))
+        ->each(function (User $user) {
+            expect($user->role)->toBe(User::FACULTY);
+        });
+});

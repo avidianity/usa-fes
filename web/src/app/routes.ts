@@ -7,6 +7,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { Roles } from './contracts/enums/roles.enum';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MainPanelComponent } from './dashboard/main-panel/main-panel.component';
+import { EvaluateComponent } from './evaluate/evaluate.component';
 import { EvaluationCriteriasComponent } from './evaluation-criterias/evaluation-criterias.component';
 import { EvaluationReportsComponent } from './evaluation-reports/evaluation-reports.component';
 import { QuestionnairesComponent } from './questionnaires/questionnaires.component';
@@ -185,6 +186,10 @@ export const routes: Routes = [
 				],
 			},
 		],
+	},
+	{
+		path: 'evaluate',
+		component: EvaluateComponent,
 	},
 	{
 		path: '**',

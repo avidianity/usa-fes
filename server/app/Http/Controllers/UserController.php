@@ -7,6 +7,8 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\File;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -99,14 +101,22 @@ class UserController extends Controller
         return response('', 204);
     }
 
-    public function faculties()
+    public function faculties(Request $request)
     {
-        return User::role(User::FACULTY)
-            ->whereHas('evaluations')
+        $user = $request->user();
+
+        $builder = User::role(User::FACULTY)
             ->with([
                 'answersAsFaculty',
                 'evaluations'
-            ])
-            ->get();
+            ]);
+
+        if ($user->role === User::STUDENT) {
+            $builder->whereDoesntHave('evaluations', function (Builder $builder) use ($user) {
+                return $builder->where('student_id', $user->id);
+            });
+        }
+
+        return $builder->get();
     }
 }

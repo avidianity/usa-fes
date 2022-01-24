@@ -97,4 +97,10 @@ export class UsersService implements EloquentContract<User> {
 			headers: this.headers(),
 		});
 	}
+
+	faculties() {
+		return this.http.get<User[]>(url(`/api/users/faculties`), {
+			headers: this.headers(),
+		});
+	}
 }

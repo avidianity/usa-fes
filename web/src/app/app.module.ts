@@ -38,6 +38,7 @@ import { UsersFormComponent } from './users/users-form/users-form.component';
 import { CardComponent } from './shared/card/card.component';
 import { ItemComponent } from './evaluation-criterias/item/item.component';
 import { QuestionItemMenuComponent } from './questionnaires/question-item-menu/question-item-menu.component';
+import { EvaluateComponent } from './evaluate/evaluate.component';
 
 @NgModule({
 	declarations: [
@@ -67,6 +68,7 @@ import { QuestionItemMenuComponent } from './questionnaires/question-item-menu/q
   CardComponent,
   ItemComponent,
   QuestionItemMenuComponent,
+  EvaluateComponent,
 	],
 	imports: [
 		FormsModule,

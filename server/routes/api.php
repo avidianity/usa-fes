@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('criterias/for-faculty/{faculty}', [CriteriaController::class, 'forFaculty'])->name('criterias.for-faculty');
 
+    Route::get('users/faculties', [UserController::class, 'faculties'])->name('users.faculties');
+
     Route::apiResources([
         'subjects' => SubjectController::class,
         'academic-years' => AcademicYearController::class,

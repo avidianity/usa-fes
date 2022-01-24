@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { url } from 'src/helpers';
+import { AuthService } from './auth/auth.service';
 import { StateService } from './state.service';
 
 @Component({
@@ -13,7 +14,11 @@ import { StateService } from './state.service';
 	styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-	constructor(private http: HttpClient, private state: StateService) {}
+	constructor(
+		private http: HttpClient,
+		private state: StateService,
+		private auth: AuthService
+	) {}
 
 	loading = true;
 
@@ -34,14 +39,12 @@ export class AppComponent implements OnInit {
 		const token = this.state.get('token');
 
 		if (token) {
-			this.http
-				.get(url(`/api/auth/check`), {
-					headers: new HttpHeaders({
-						Accept: 'application/json',
-						Authorization: `Bearer ${token}`,
-					}),
-				})
+			this.auth
+				.getUser()
 				.subscribe({
+					next: (user) => {
+						this.state.set('user', user);
+					},
 					error: (error: HttpErrorResponse) => {
 						if (error.status === 401) {
 							this.state.remove('token').remove('user');

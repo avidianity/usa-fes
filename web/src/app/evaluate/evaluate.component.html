@@ -1,0 +1,44 @@
+<div
+	class="flex flex-wrap h-screen w-full items-center justify-center bg-red-500"
+>
+	<div class="bg-white w-11/12 md:w-2/3 lg:w-3/5 px-4 py-5 rounded shadow">
+		<h3 class="text-3xl">Hi {{ user.name }}!</h3>
+		<div class="pt-1" *ngIf="faculties.length > 0">
+			<p>
+				Select a <code class="text-red-500">Faculty</code> to get
+				started.
+			</p>
+			<div class="pt-2">
+				<label for="faculty_id" id="faculty_id" class="form-label">
+					Faculty
+				</label>
+				<select
+					name="faculty_id"
+					id="faculty_id"
+					class="form-control"
+					[ngModel]="faculty_id"
+					(ngModelChange)="onChange($event)"
+				>
+					<option value="">-- Select --</option>
+					<option
+						*ngFor="let faculty of faculties"
+						[value]="faculty.id"
+					>
+						{{ faculty.name }}
+					</option>
+				</select>
+			</div>
+			<div class="pt-4">
+				<button
+					class="btn-primary w-full py-2"
+					[disabled]="faculty === null"
+				>
+					Get Started
+				</button>
+			</div>
+		</div>
+		<div class="pt-1" *ngIf="loaded && faculties.length === 0">
+			<p>There are no faculties to evaluate.</p>
+		</div>
+	</div>
+</div>

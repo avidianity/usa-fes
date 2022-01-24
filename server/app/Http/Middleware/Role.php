@@ -19,7 +19,9 @@ class Role
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        $roles = collect($roles)->map(fn (string $role) => trim($role));
+        $roles = collect($roles)
+            ->flatMap(fn (string $role) => explode(',', $role))
+            ->map(fn (string $role) => trim($role));
 
         $roles->each(function (string $role) {
             if (!in_array($role, User::ROLES)) {

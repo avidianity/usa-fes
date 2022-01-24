@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import FormData from '@avidian/form-data';
 import { EMPTY } from 'rxjs';
 import { url } from 'src/helpers';
+import { Roles } from '../contracts/enums/roles.enum';
 import { User } from '../contracts/models/user';
 import { StateService } from '../state.service';
 import { Login } from './login/login';
@@ -58,9 +59,25 @@ export class AuthService {
 		return EMPTY;
 	}
 
+	getUser() {
+		const token = this.state.get<string>('token');
+
+		return this.http.get<User>(url('/api/auth/check'), {
+			headers: new HttpHeaders({
+				Accept: 'application/json',
+				Authorization: `Bearer ${token}`,
+			}),
+		});
+	}
+
 	redirectIfAuthenticated() {
 		if (this.state.has('token')) {
-			this.router.navigateByUrl('/dashboard');
+			const user = this.state.get<User>('user');
+			if (user?.role === Roles.STUDENT) {
+				this.router.navigateByUrl('/evaluate');
+			} else {
+				this.router.navigateByUrl('/dashboard');
+			}
 		}
 	}
 }
