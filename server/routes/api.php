@@ -37,13 +37,22 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('analytics', AnalyticsController::class)->name('analytics');
 
-    Route::put('criterias/reorder', [CriteriaController::class, 'reorder'])->name('criterias.reorder');
-    Route::patch('criterias/reorder', [CriteriaController::class, 'reorder'])->name('criterias.reorder');
+    Route::controller(CriteriaController::class)
+        ->as('criterias.')
+        ->prefix('criterias')
+        ->group(function () {
+            Route::put('reorder', 'reorder')->name('reorder');
+            Route::patch('reorder', 'reorder')->name('reorder');
+            Route::get('for-faculty/{faculty}', 'forFaculty')->name('for-faculty');
+        });
 
-    Route::put('criterias/questions/reorder', [QuestionController::class, 'reorder'])->name('criterias.questions.reorder');
-    Route::patch('criterias/questions/reorder', [QuestionController::class, 'reorder'])->name('criterias.questions.reorder');
-
-    Route::get('criterias/for-faculty/{faculty}', [CriteriaController::class, 'forFaculty'])->name('criterias.for-faculty');
+    Route::controller(QuestionController::class)
+        ->as('criterias.')
+        ->prefix('criterias')
+        ->group(function () {
+            Route::put('questions/reorder', 'reorder')->name('questions.reorder');
+            Route::patch('questions/reorder', 'reorder')->name('questions.reorder');
+        });
 
     Route::get('users/faculties', [UserController::class, 'faculties'])->name('users.faculties');
 
