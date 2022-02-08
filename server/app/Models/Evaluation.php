@@ -17,7 +17,8 @@ class Evaluation extends Model
     protected $fillable = [
         'academic_year_id',
         'student_id',
-        'faculty_id'
+        'faculty_id',
+        'comments'
     ];
 
     public function year()

@@ -8,6 +8,7 @@ use App\Models\Answer;
 use App\Models\Evaluation;
 use App\Models\Question;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AnswerController extends Controller
 {
@@ -64,28 +65,36 @@ class AnswerController extends Controller
 
     public function storeMany(StoreManyAnswersRequest $request)
     {
-        list('faculty_id' => $facultyId, 'answers' => $answers) = $request->validated();
+        return DB::transaction(function () use ($request) {
+            list('faculty_id' => $facultyId, 'answers' => $answers) = $request->validated();
 
-        /**
-         * @var \App\Models\User
-         */
-        $user = $request->user();
+            $comments = $request->input('comments');
 
-        $faculty = User::findOrFail($facultyId);
+            /**
+             * @var \App\Models\User
+             */
+            $user = $request->user();
 
-        $answers = $faculty->answersAsFaculty()->createMany(
-            collect($answers)->map(function ($data) use ($user) {
-                $data['student_id'] = $user->id;
-                return $data;
-            })
-        );
+            $faculty = User::findOrFail($facultyId);
 
-        Evaluation::create([
-            'academic_year_id' => AcademicYear::active()->status(AcademicYear::EVALUATION_ONGOING)->firstOrFail()->id,
-            'student_id' => $user->id,
-            'faculty_id' => $faculty->id
-        ]);
+            $answers = $faculty->answersAsFaculty()->createMany(
+                collect($answers)->map(function ($data) use ($user) {
+                    $data['student_id'] = $user->id;
+                    return $data;
+                })
+            );
 
-        return $answers;
+            $evaluation = Evaluation::create([
+                'academic_year_id' => AcademicYear::active()->status(AcademicYear::EVALUATION_ONGOING)->firstOrFail()->id,
+                'student_id' => $user->id,
+                'faculty_id' => $faculty->id,
+                'comments' => $comments
+            ]);
+
+            return [
+                'evaluation' => $evaluation,
+                'answers' => $answers,
+            ];
+        });
     }
 }

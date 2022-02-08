@@ -25,12 +25,13 @@ export class EvaluationService {
 		return headers;
 	}
 
-	store(faculty: User, answers: AnswerContract[]) {
+	store(faculty: User, answers: AnswerContract[], comments = '') {
 		return this.http.post(
 			url('/api/answers/many'),
 			{
 				faculty_id: faculty.id,
 				answers,
+				comments,
 			},
 			{ headers: this.headers() }
 		);

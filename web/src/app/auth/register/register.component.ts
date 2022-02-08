@@ -33,6 +33,8 @@ export class RegisterComponent implements OnInit {
 
 	roles = [Roles.FACULTY, Roles.STUDENT];
 
+	rolesEnum = Roles;
+
 	ngOnInit(): void {
 		this.auth.redirectIfAuthenticated();
 

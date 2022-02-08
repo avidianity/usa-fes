@@ -41,6 +41,8 @@ export class EvaluateComponent implements OnInit, OnDestroy {
 
 	faculty: User | null = null;
 
+	comments = '';
+
 	constructor(
 		private state: StateService,
 		private usersService: UsersService,
@@ -125,7 +127,7 @@ export class EvaluateComponent implements OnInit, OnDestroy {
 	submit() {
 		this.processing = true;
 		this.evaluationService
-			.store(this.faculty!, flatten(this.answers))
+			.store(this.faculty!, flatten(this.answers), this.comments)
 			.subscribe({
 				next: () => {
 					this.toastr.success(

@@ -1,5 +1,3 @@
-import { Roles } from 'src/app/contracts/enums/roles.enum';
-
 export class Register {
 	constructor(
 		public school_id = '',
@@ -10,6 +8,6 @@ export class Register {
 		public password_confirmation = '',
 		public section_id = '',
 		public picture?: File,
-		public role = Roles.STUDENT
+		public role = ''
 	) {}
 }

@@ -36,7 +36,8 @@ class StoreManyAnswersRequest extends FormRequest
             ],
             'answers' => ['required', 'array'],
             'answers.*.question_id' => ['required', Rule::exists(Question::class, 'id'), 'distinct'],
-            'answers.*.rating' => ['required', Rule::in(Answer::RATINGS)]
+            'answers.*.rating' => ['required', Rule::in(Answer::RATINGS)],
+            'comments' => ['nullable', 'string']
         ];
     }
 }

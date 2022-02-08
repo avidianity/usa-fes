@@ -29,7 +29,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'school_id' => ['required', 'string', 'max:255'],
-            'section_id' => ['required', Rule::exists(Section::class, 'id')],
+            'section_id' => [sprintf('required_if:role,%s', User::STUDENT), Rule::exists(Section::class, 'id')],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', Rule::unique(User::class)],
