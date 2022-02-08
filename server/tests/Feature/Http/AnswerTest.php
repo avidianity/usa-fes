@@ -227,7 +227,7 @@ it('fails to create answers for a student', function () {
     postJson(route('answers.store-many'), $data)
         ->assertUnprocessable()
         ->assertJson([
-            'message' => 'The given data was invalid.',
+            'message' => 'You have already evaluated this faculty.',
             'errors' => [
                 'faculty_id' => [
                     (new StudentHasNotVotedFaculty($user))->message()
