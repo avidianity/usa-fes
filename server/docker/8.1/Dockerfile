@@ -4,8 +4,11 @@ ARG WWWGROUP
 
 WORKDIR /var/www/html
 
+<<<<<<< HEAD
 ENV DEBIAN_FRONTEND noninteractive
 
+=======
+>>>>>>> fb1cd7e (Mega Update)
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 

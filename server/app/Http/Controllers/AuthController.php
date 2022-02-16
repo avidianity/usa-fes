@@ -16,9 +16,14 @@ class AuthController extends Controller
     {
         list('email' => $email, 'password' => $password) = $request->validated();
 
-        $user = User::whereEmail($email)
-            ->with('picture')
-            ->firstOrFail();
+        $builder = User::whereEmail($email)
+            ->with('picture', 'section');
+
+        if ($request->has('role')) {
+            $builder->where('role', $request->input('role'));
+        }
+
+        $user = $builder->firstOrFail();
 
         if (!$user->active) {
             return response(['message' => 'Account is not active.'], 403);
