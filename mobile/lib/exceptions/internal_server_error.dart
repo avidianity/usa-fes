@@ -1,7 +1,9 @@
+import 'package:usafes/exceptions/http.dart';
 import 'package:usafes/http/response.dart';
 
-class InternalServerErrorException implements Exception {
+class InternalServerErrorException implements HttpException {
   final Response response;
+  @override
   final String message;
 
   InternalServerErrorException({

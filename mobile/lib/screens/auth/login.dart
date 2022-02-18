@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:usafes/components/shared/logo.dart';
 import 'package:usafes/exceptions/forbidden.dart';
+import 'package:usafes/exceptions/http.dart';
+import 'package:usafes/exceptions/internal_server_error.dart';
 import 'package:usafes/exceptions/validation.dart';
 import 'package:usafes/forms/login.dart';
 import 'package:usafes/services/auth.dart';
@@ -17,30 +19,37 @@ class LoginState extends State<Login> {
   final controller = LoginForm();
   final authService = AuthService();
 
+  _showSnackException({required HttpException exception, Color? color}) {
+    setState(() {
+      controller.clearErrors();
+    });
+    final snack = SnackBar(
+      content: Text(exception.message),
+      backgroundColor: color,
+      action: SnackBarAction(
+        label: 'Dismiss',
+        onPressed: () {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snack);
+  }
+
   submit() async {
     var data = controller.toObject();
 
     try {
       final response = await authService.login(data);
     } on ForbiddenException catch (exception) {
-      setState(() {
-        controller.clearErrors();
-      });
-      final snack = SnackBar(
-        content: Text(exception.message),
-        action: SnackBarAction(
-          label: 'Dismiss',
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(snack);
+      _showSnackException(exception: exception);
     } on ValidationException catch (exception) {
       setState(() {
         controller.setErrors(exception.getErrors());
       });
+    } on InternalServerErrorException catch (exception) {
+      _showSnackException(exception: exception, color: Colors.red[400]);
     }
   }
 

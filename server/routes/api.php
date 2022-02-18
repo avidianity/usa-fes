@@ -5,6 +5,8 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
@@ -32,6 +34,11 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('register', [AuthController::class, 'register'])->name('register');
+
+    Route::group(['prefix' => 'forgot-password', 'as' => 'forgot-password.'], function () {
+        Route::post('send', [ForgotPasswordController::class, 'send'])->name('send');
+        Route::post('complete', [ForgotPasswordController::class, 'complete'])->name('complete');
+    });
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -71,3 +78,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 Route::apiResource('sections', SectionController::class)->only('index');
+Route::post('otps/verify', [OtpController::class, 'verify'])->name('otps.verify');

@@ -9,18 +9,14 @@ use Illuminate\Support\Facades\Config;
 use Mockery;
 
 it('logs a request and response', function () {
-    $default = Config::get('logging.requests');
-
-    Config::set('logging.requests', true);
+    config()->set('logging.requests', true);
 
     $middleware = new Log();
 
-    $middleware->handle(new Request(), function () {
-        $response = Mockery::mock(Response::class);
-        $response->shouldReceive('header')->once();
+    $response = Mockery::mock(Response::class);
+    $response->shouldReceive('header')->once();
 
+    $middleware->handle(new Request(), function () use ($response) {
         return $response;
     });
-
-    Config::set('logging.requests', $default);
 });

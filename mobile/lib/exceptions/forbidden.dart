@@ -1,7 +1,9 @@
+import 'package:usafes/exceptions/http.dart';
 import 'package:usafes/http/response.dart';
 
-class ForbiddenException implements Exception {
+class ForbiddenException implements HttpException {
   final Response response;
+  @override
   final String message;
 
   ForbiddenException(

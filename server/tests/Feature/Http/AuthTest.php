@@ -4,8 +4,11 @@ namespace Tests\Feature\Http;
 
 use App\Models\Section;
 use App\Models\User;
+use App\Notifications\ForgotPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\postJson;
@@ -72,4 +75,55 @@ it('logs out a user', function () {
 
     deleteJson(route('auth.logout'))
         ->assertNoContent();
+});
+
+it('fails to send forgot password notification when mailing is disabled', function () {
+    config()->set('mail.enabled', false);
+
+    $user = User::factory()->create();
+
+    postJson(route('auth.forgot-password.send'), ['email' => $user->email])
+        ->assertStatus(400);
+});
+
+it('sends a forgot password notification with otp', function () {
+    config()->set('mail.enabled', true);
+    Notification::fake();
+
+    $user = User::factory()->create();
+
+    $response = postJson(route('auth.forgot-password.send'), ['email' => $user->email])
+        ->assertOk();
+
+    $otp = $user->otps()->firstOrFail();
+
+    expect($otp->verification)->toBe($response->json('verification'));
+
+    Notification::assertSentTo(
+        $user,
+        ForgotPasswordNotification::class,
+        function (ForgotPasswordNotification $event) use ($otp) {
+            return invade($event)->otp->id === $otp->id;
+        }
+    );
+});
+
+it('changes a user\'s password with valid otp', function () {
+    $user = User::factory()->create();
+
+    $otp = $user->otps()->create();
+
+    $password = faker()->password;
+
+    $data = [
+        'uuid' => $otp->uuid,
+        'verification' => $otp->verification,
+        'password' => $password,
+        'password_confirmation' => $password,
+    ];
+
+    postJson(route('auth.forgot-password.complete'), $data)
+        ->assertNoContent();
+
+    expect(Hash::check($password, $user->fresh()->password))->toBeTrue();
 });

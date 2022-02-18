@@ -1,7 +1,10 @@
+import 'package:usafes/exceptions/http.dart';
 import 'package:usafes/http/response.dart';
 
-class NotFoundException implements Exception {
+class NotFoundException implements HttpException {
   final Response response;
+  @override
+  final String message = 'Resource not found.';
 
   NotFoundException({required this.response});
 }
