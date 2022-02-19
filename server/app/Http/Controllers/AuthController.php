@@ -55,8 +55,9 @@ class AuthController extends Controller
     public function check(Request $request)
     {
         $user = $request->user();
+        throw new \Exception();
 
-        $user->load('picture');
+        $user->load('picture', 'section');
 
         return $user;
     }

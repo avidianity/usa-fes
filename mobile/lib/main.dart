@@ -19,7 +19,7 @@ class App extends StatelessWidget {
       title: 'USA-FES',
       initialRoute: '/loading',
       routes: {
-        '/': (context) => const Home(),
+        '/': (context) => Home(),
         '/loading': (context) => const LoadingScreen(),
         '/login': (context) => const Login(),
         '/register': (context) => const Register(),

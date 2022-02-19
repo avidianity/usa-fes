@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:usafes/exceptions/forbidden.dart';
-import 'package:usafes/exceptions/internal_server_error.dart';
-import 'package:usafes/exceptions/not_found.dart';
-import 'package:usafes/exceptions/unauthorized.dart';
-import 'package:usafes/exceptions/validation.dart';
+import 'package:usafes/exceptions/http/forbidden.dart';
+import 'package:usafes/exceptions/http/internal_server_error.dart';
+import 'package:usafes/exceptions/http/not_found.dart';
+import 'package:usafes/exceptions/http/unauthorized.dart';
+import 'package:usafes/exceptions/http/validation.dart';
 import 'package:usafes/http/response.dart';
 
 class Client {

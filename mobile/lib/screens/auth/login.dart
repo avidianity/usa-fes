@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:usafes/components/shared/logo.dart';
-import 'package:usafes/exceptions/forbidden.dart';
-import 'package:usafes/exceptions/http.dart';
-import 'package:usafes/exceptions/internal_server_error.dart';
-import 'package:usafes/exceptions/validation.dart';
+import 'package:usafes/exceptions/http/forbidden.dart';
+import 'package:usafes/exceptions/http/http.dart';
+import 'package:usafes/exceptions/http/internal_server_error.dart';
+import 'package:usafes/exceptions/http/validation.dart';
 import 'package:usafes/forms/login.dart';
 import 'package:usafes/services/auth.dart';
 
@@ -18,11 +19,9 @@ class LoginState extends State<Login> {
   final _formKey = GlobalKey<LoginState>();
   final controller = LoginForm();
   final authService = AuthService();
+  final storage = const FlutterSecureStorage();
 
   _showSnackException({required HttpException exception, Color? color}) {
-    setState(() {
-      controller.clearErrors();
-    });
     final snack = SnackBar(
       content: Text(exception.message),
       backgroundColor: color,
@@ -39,9 +38,17 @@ class LoginState extends State<Login> {
 
   submit() async {
     var data = controller.toObject();
+    setState(() {
+      controller.clearErrors();
+    });
 
     try {
       final response = await authService.login(data);
+
+      await storage.write(key: 'token', value: response.token);
+      await storage.write(key: 'user', value: response.user.toJson());
+
+      Navigator.of(context).pop();
     } on ForbiddenException catch (exception) {
       _showSnackException(exception: exception);
     } on ValidationException catch (exception) {

@@ -1,4 +1,4 @@
-import 'package:usafes/exceptions/http.dart';
+import 'package:usafes/exceptions/http/http.dart';
 import 'package:usafes/http/response.dart';
 
 class ForbiddenException implements HttpException {
