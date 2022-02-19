@@ -29,5 +29,7 @@
         <server name="TELESCOPE_ENABLED" value="false"/>
         <server name="LOG_CHANNEL" value="null"/>
         <server name="LOG_REQUESTS" value="false"/>
+        <server name="OTP_EXPIRATION" value="5"/>
+        <server name="MAIL_ENABLED" value="false"/>
     </php>
 </phpunit>

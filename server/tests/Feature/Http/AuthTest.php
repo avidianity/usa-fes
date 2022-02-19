@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\ForgotPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -97,7 +98,7 @@ it('sends a forgot password notification with otp', function () {
 
     $otp = $user->otps()->firstOrFail();
 
-    expect($otp->verification)->toBe($response->json('verification'));
+    $response->assertJson(['verification' => $otp->verification]);
 
     Notification::assertSentTo(
         $user,
@@ -126,4 +127,25 @@ it('changes a user\'s password with valid otp', function () {
         ->assertNoContent();
 
     expect(Hash::check($password, $user->fresh()->password))->toBeTrue();
+});
+
+it('throws otp expired error on completing forgot password', function () {
+    $user = User::factory()->create();
+
+    $otp = $user->otps()->create();
+
+    Carbon::setTestNow(now()->addMinutes(config('otp.expiration')));
+
+    $password = faker()->password;
+
+    $data = [
+        'uuid' => $otp->uuid,
+        'verification' => $otp->verification,
+        'password' => $password,
+        'password_confirmation' => $password,
+    ];
+
+    postJson(route('auth.forgot-password.complete'), $data)
+        ->assertForbidden()
+        ->assertJson(['message' => 'Otp is expired.']);
 });
