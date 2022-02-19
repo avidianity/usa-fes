@@ -25,8 +25,17 @@ export class LoginComponent implements OnInit {
 
 	processing = false;
 
+	mailingEnabled = false;
+
 	ngOnInit(): void {
 		this.auth.redirectIfAuthenticated();
+		this.checkMailing();
+	}
+
+	checkMailing() {
+		this.auth.checkMailing().subscribe((data) => {
+			this.mailingEnabled = data.mailing_enabled;
+		});
 	}
 
 	submit() {

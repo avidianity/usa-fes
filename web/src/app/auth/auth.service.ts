@@ -80,4 +80,15 @@ export class AuthService {
 			}
 		}
 	}
+
+	checkMailing() {
+		return this.http.get<{ mailing_enabled: boolean }>(
+			url('/api/settings'),
+			{
+				headers: new HttpHeaders({
+					Accept: 'application/json',
+				}),
+			}
+		);
+	}
 }

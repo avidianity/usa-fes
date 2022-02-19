@@ -24,6 +24,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('settings', function () {
+    return [
+        'mailing_enabled' => config('mail.enabled'),
+    ];
+});
+
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('check', [AuthController::class, 'check'])

@@ -39,6 +39,7 @@ import { CardComponent } from './shared/card/card.component';
 import { ItemComponent } from './evaluation-criterias/item/item.component';
 import { QuestionItemMenuComponent } from './questionnaires/question-item-menu/question-item-menu.component';
 import { EvaluateComponent } from './evaluate/evaluate.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 @NgModule({
 	declarations: [
@@ -69,6 +70,7 @@ import { EvaluateComponent } from './evaluate/evaluate.component';
 		ItemComponent,
 		QuestionItemMenuComponent,
 		EvaluateComponent,
+		ForgotPasswordComponent,
 	],
 	imports: [
 		FormsModule,

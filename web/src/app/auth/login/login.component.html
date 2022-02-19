@@ -62,12 +62,21 @@
 				{{ processing ? '' : 'Sign In' }}
 				<i class="las la-spinner animate-spin" *ngIf="processing"></i>
 			</button>
-			<a
-				routerLink="/register"
-				class="mt-2 block text-blue-600 text-sm hover:underline"
-			>
-				Don't have an account? Sign Up
-			</a>
+			<div class="flex">
+				<a
+					routerLink="/register"
+					class="mt-2 block text-blue-600 text-sm hover:underline"
+				>
+					Don't have an account? Sign Up
+				</a>
+				<a
+					*ngIf="mailingEnabled"
+					routerLink="/forgot-password"
+					class="mt-2 ml-auto block text-blue-600 text-sm hover:underline"
+				>
+					Forgot Password
+				</a>
+			</div>
 		</form>
 	</div>
 </div>

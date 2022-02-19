@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AcademicYearsFormComponent } from './academic-years/academic-years-form/academic-years-form.component';
 import { AcademicYearsListComponent } from './academic-years/academic-years-list/academic-years-list.component';
 import { AcademicYearsComponent } from './academic-years/academic-years.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { Roles } from './contracts/enums/roles.enum';
@@ -29,6 +30,10 @@ export const routes: Routes = [
 	{
 		path: 'register',
 		component: RegisterComponent,
+	},
+	{
+		path: 'forgot-password',
+		component: ForgotPasswordComponent,
 	},
 	{
 		path: 'dashboard',
