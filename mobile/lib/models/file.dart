@@ -2,18 +2,18 @@ import 'dart:convert';
 
 import 'package:usafes/models/base.dart';
 
-class SectionModel extends BaseModel {
+class FileModel extends BaseModel {
+  String type;
   String name;
-  String title;
-  int level;
-  String section;
+  String url;
+  int size;
 
-  SectionModel({
+  FileModel({
     required int id,
     required this.name,
-    required this.title,
-    required this.level,
-    required this.section,
+    required this.type,
+    required this.url,
+    required this.size,
     required String createdAt,
     required String updatedAt,
   }) : super(
@@ -22,13 +22,13 @@ class SectionModel extends BaseModel {
           updatedAt: updatedAt,
         );
 
-  factory SectionModel.fromJson(dynamic data) {
-    var instance = SectionModel(
+  factory FileModel.fromJson(dynamic data) {
+    var instance = FileModel(
       id: data['id'],
       name: data['name'],
-      title: data['title'],
-      level: data['level'],
-      section: data['section'],
+      type: data['type'],
+      url: data['url'],
+      size: data['size'],
       createdAt: data['created_at'],
       updatedAt: data['updated_at'],
     );
@@ -36,11 +36,11 @@ class SectionModel extends BaseModel {
     return instance;
   }
 
-  static List<SectionModel> collection(List<dynamic> collection) {
-    List<SectionModel> data = [];
+  static List<FileModel> collection(List<dynamic> collection) {
+    List<FileModel> data = [];
 
     for (var entry in collection) {
-      data.add(SectionModel.fromJson(entry));
+      data.add(FileModel.fromJson(entry));
     }
 
     return data;
@@ -51,9 +51,9 @@ class SectionModel extends BaseModel {
     return {
       'id': id,
       'name': name,
-      'title': title,
-      'level': level,
-      'section': section,
+      'type': type,
+      'url': url,
+      'size': size,
       'created_at': createdAt,
       'updated_at': updatedAt
     };

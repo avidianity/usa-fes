@@ -157,6 +157,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'email' => 'email address',
+        'school_id' => 'school ID',
+        'section_id' => 'section'
+    ],
 
 ];

@@ -27,6 +27,18 @@ class AuthService {
     return LoginResponse(user: user, token: token);
   }
 
+  Future<UserModel> register(Map<String, dynamic> data) async {
+    data['role'] = 'Student';
+
+    final response = await http.post(
+      '/api/auth/register',
+      data,
+      headers: headers,
+    );
+
+    return UserModel.fromJson(response.data);
+  }
+
   Future<UserModel> check() async {
     final token = await storage.read(key: 'token');
 

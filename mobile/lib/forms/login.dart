@@ -7,7 +7,7 @@ class LoginForm extends BaseForm implements FormControllerInterface {
   final password = TextEditingController();
 
   @override
-  final List<String> keys = ['email', 'password'];
+  final List<String> errorKeys = ['email', 'password'];
 
   @override
   void dispose() {

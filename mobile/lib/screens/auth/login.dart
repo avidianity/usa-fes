@@ -21,12 +21,14 @@ class LoginState extends State<Login> {
   final authService = AuthService();
   final storage = const FlutterSecureStorage();
 
-  _showSnackException({required HttpException exception, Color? color}) {
+  _showSnackException(
+      {required HttpException exception, Color? color, Color? actionColor}) {
     final snack = SnackBar(
       content: Text(exception.message),
       backgroundColor: color,
       action: SnackBarAction(
         label: 'Dismiss',
+        textColor: actionColor,
         onPressed: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
         },
@@ -48,9 +50,21 @@ class LoginState extends State<Login> {
       await storage.write(key: 'token', value: response.token);
       await storage.write(key: 'user', value: response.user.toJson());
 
-      Navigator.of(context).pop();
+      final snack = SnackBar(
+        content: Text('Hi ${response.user.firstName}, welcome back!'),
+        backgroundColor: Colors.green,
+        duration: const Duration(seconds: 2),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snack);
+
+      Navigator.of(context).pop(response.user);
     } on ForbiddenException catch (exception) {
-      _showSnackException(exception: exception);
+      _showSnackException(
+        exception: exception,
+        color: Colors.amber[700],
+        actionColor: Colors.white,
+      );
     } on ValidationException catch (exception) {
       setState(() {
         controller.setErrors(exception.getErrors());

@@ -28,10 +28,10 @@ class UpdateQuestionOrderRequest extends FormRequest
     {
         return [
             'criterias' => ['required', 'array'],
-            'criterias.*.id' => ['required', Rule::exists(Criteria::class, 'id'), 'distinct'],
+            'criterias.*.id' => Rule::forEach(fn () => ['required', Rule::exists(Criteria::class, 'id'), 'distinct']),
             'criterias.*.questions' => ['required', 'array'],
-            'criterias.*.questions.*.id' => ['required', Rule::exists(Question::class, 'id'), 'distinct'],
-            'criterias.*.questions.*.order' => ['required', 'numeric']
+            'criterias.*.questions.*.id' => Rule::forEach(fn () => ['required', Rule::exists(Question::class, 'id'), 'distinct']),
+            'criterias.*.questions.*.order' => Rule::forEach(fn () => ['required', 'numeric'])
         ];
     }
 }

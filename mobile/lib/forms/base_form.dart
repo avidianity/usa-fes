@@ -1,18 +1,18 @@
 abstract class BaseForm {
   final Map<String, List<String>> errors = {};
-  abstract final List<String> keys;
+  abstract final List<String> errorKeys;
 
   BaseForm() {
     clearErrors();
   }
 
   bool hasError(String key) {
-    return errors[key]!.isNotEmpty;
+    return errors.containsKey(key) && errors[key]!.isNotEmpty;
   }
 
   bool hasErrors() {
-    for (final key in keys) {
-      if (errors[key]!.isNotEmpty) {
+    for (final key in errorKeys) {
+      if (errors.containsKey(key) && errors[key]!.isNotEmpty) {
         return true;
       }
     }
@@ -21,14 +21,15 @@ abstract class BaseForm {
   }
 
   void clearErrors() {
-    for (final key in keys) {
+    for (final key in errorKeys) {
       errors[key] = [];
     }
   }
 
   setErrors(dynamic errors) {
-    setError('email', errors['email']);
-    setError('password', errors['password']);
+    for (final key in errorKeys) {
+      setError(key, errors[key]);
+    }
   }
 
   setError(String key, List<dynamic>? errors) {

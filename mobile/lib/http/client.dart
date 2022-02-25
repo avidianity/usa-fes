@@ -34,15 +34,21 @@ class Client {
     switch (response.code) {
       case 500:
         throw InternalServerErrorException(
-            response: response, message: response.data['message']);
+          response: response,
+          message: response.data['message'],
+        );
       case 422:
         throw ValidationException(
-            errors: response.data['errors'], response: response);
+          errors: response.data['errors'],
+          response: response,
+        );
       case 404:
         throw NotFoundException(response: response);
       case 403:
         throw ForbiddenException(
-            response: response, message: response.data['message']);
+          response: response,
+          message: response.data['message'],
+        );
       case 401:
         throw UnauthorizedException(response: response);
     }

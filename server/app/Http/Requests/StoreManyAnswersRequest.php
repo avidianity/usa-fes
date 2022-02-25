@@ -35,8 +35,8 @@ class StoreManyAnswersRequest extends FormRequest
                 new StudentHasNotVotedFaculty($this->user())
             ],
             'answers' => ['required', 'array'],
-            'answers.*.question_id' => ['required', Rule::exists(Question::class, 'id'), 'distinct'],
-            'answers.*.rating' => ['required', Rule::in(Answer::RATINGS)],
+            'answers.*.question_id' => Rule::forEach(fn () => ['required', Rule::exists(Question::class, 'id'), 'distinct']),
+            'answers.*.rating' => Rule::forEach(fn () => ['required', Rule::in(Answer::RATINGS)]),
             'comments' => ['nullable', 'string']
         ];
     }

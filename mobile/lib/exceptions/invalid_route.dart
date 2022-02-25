@@ -1,0 +1,1 @@
+class InvalidRouteException implements Exception {}

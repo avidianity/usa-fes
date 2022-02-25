@@ -27,7 +27,7 @@ class UpdateCriteraOrderRequest extends FormRequest
     {
         return [
             'criterias' => ['required', 'array'],
-            'criterias.*.id' => ['required', Rule::exists(Criteria::class, 'id'), 'distinct'],
+            'criterias.*.id' => Rule::forEach(fn () =>  ['required', Rule::exists(Criteria::class, 'id'), 'distinct']),
             'criterias.*.order' => ['required', 'numeric', 'distinct']
         ];
     }

@@ -9,5 +9,7 @@ abstract class BaseModel {
     required this.updatedAt,
   });
 
+  dynamic toObject();
+
   String toJson();
 }
