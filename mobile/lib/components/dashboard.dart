@@ -104,7 +104,7 @@ class _DashboardState extends State<Dashboard> {
           analytics: analytics,
         );
       case routeEvaluate:
-        return Evaluate();
+        return const Evaluate();
       default:
         throw InvalidRouteException();
     }

@@ -160,7 +160,8 @@ return [
     'attributes' => [
         'email' => 'email address',
         'school_id' => 'school ID',
-        'section_id' => 'section'
+        'section_id' => 'section',
+        'faculty_id' => 'faculty'
     ],
 
 ];

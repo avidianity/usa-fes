@@ -28,7 +28,7 @@ Route::get('settings', function () {
     return [
         'mailing_enabled' => config('mail.enabled'),
     ];
-});
+})->name('settings');
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::group(['middleware' => 'auth:sanctum'], function () {

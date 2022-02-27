@@ -30,6 +30,7 @@ class RegisterForm extends BaseForm implements FormControllerInterface {
     email.dispose();
     password.dispose();
     passwordConfirmation.dispose();
+    sectionId = 0;
   }
 
   @override
