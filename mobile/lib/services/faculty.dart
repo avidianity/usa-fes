@@ -8,7 +8,6 @@ class FacultyService {
   final storage = const FlutterSecureStorage();
   final Map<String, String> headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
   };
 
   Future<List<UserModel>> fetch() async {

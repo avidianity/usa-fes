@@ -69,8 +69,11 @@ class Client {
       {Map<String, String>? headers, Map<String, dynamic>? params}) async {
     final uri = _createUri(path, params);
 
-    final response =
-        await http.post(uri, headers: headers, body: jsonEncode(data));
+    final response = await http.post(
+      uri,
+      headers: headers,
+      body: jsonEncode(data),
+    );
 
     return _handleResponse(response);
   }
@@ -79,8 +82,11 @@ class Client {
       {Map<String, String>? headers, Map<String, dynamic>? params}) async {
     final uri = _createUri(path, params);
 
-    final response =
-        await http.put(uri, headers: headers, body: jsonEncode(data));
+    final response = await http.put(
+      uri,
+      headers: headers,
+      body: jsonEncode(data),
+    );
 
     return _handleResponse(response);
   }
@@ -89,8 +95,11 @@ class Client {
       {Map<String, String>? headers, Map<String, dynamic>? params}) async {
     final uri = _createUri(path, params);
 
-    final response =
-        await http.patch(uri, headers: headers, body: jsonEncode(data));
+    final response = await http.patch(
+      uri,
+      headers: headers,
+      body: jsonEncode(data),
+    );
 
     return _handleResponse(response);
   }

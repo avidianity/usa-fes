@@ -60,7 +60,7 @@ class _DashboardState extends State<Dashboard> {
           //
         });
       });
-    } on HttpException catch (_) {
+    } catch (_) {
       await storage.delete(key: 'token');
       await storage.delete(key: 'user');
 

@@ -39,7 +39,9 @@ class UserModel extends BaseModel {
         email: data['email'],
         createdAt: data['created_at'],
         updatedAt: data['updated_at'],
-        sectionId: data['section_id'],
+        sectionId: data.containsKey('section_id') && data['section_id'] != null
+            ? data['section_id']
+            : 0,
         section: data.containsKey('section') && data['section'] != null
             ? SectionModel.fromJson(data['section'])
             : null,

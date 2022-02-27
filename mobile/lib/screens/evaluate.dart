@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:usafes/components/criteria.dart';
+import 'package:usafes/exceptions/http/http.dart';
+import 'package:usafes/exceptions/http/internal_server_error.dart';
+import 'package:usafes/exceptions/http/validation.dart';
 import 'package:usafes/forms/evaluate.dart';
+import 'package:usafes/models/criteria.dart';
+import 'package:usafes/services/criteria.dart';
+import 'package:usafes/services/evaluation.dart';
 import 'package:usafes/services/faculty.dart';
 
 class Faculty {
@@ -21,6 +28,8 @@ class Evaluate extends StatefulWidget {
 
 class _EvaluateState extends State<Evaluate> {
   final facultyService = FacultyService();
+  final criteriaService = CriteriaService();
+  final evaluationService = EvaluationService();
   final controller = EvaluateForm();
   List<Faculty> faculties = [
     Faculty(
@@ -29,11 +38,82 @@ class _EvaluateState extends State<Evaluate> {
     )
   ];
 
+  List<CriteriaModel> criterias = [];
+
   @override
   void initState() {
     super.initState();
 
+    fetchCriterias();
     fetchFaculties();
+  }
+
+  Future<void> submit() async {
+    final payload = controller.toObject();
+
+    try {
+      await evaluationService.store(payload);
+      setState(() {
+        controller.clear();
+        controller.clearErrors();
+      });
+
+      final snack = SnackBar(
+        content: const Text('Evaluation saved successfully!'),
+        backgroundColor: Colors.green,
+        action: SnackBarAction(
+          label: 'Dismiss',
+          textColor: Colors.white,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snack);
+    } on ValidationException catch (exception) {
+      setState(() {
+        controller.setErrors(exception.getErrors());
+
+        if (controller.hasError('answers')) {
+          final snack = SnackBar(
+            content: const Text('Please answer all of the questions.'),
+            backgroundColor: Colors.red[400],
+            action: SnackBarAction(
+              label: 'Dismiss',
+              textColor: Colors.white,
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+            ),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snack);
+        }
+      });
+    } on InternalServerErrorException catch (exception) {
+      _showSnackException(exception: exception, color: Colors.red[400]);
+    }
+  }
+
+  _showSnackException({
+    required HttpException exception,
+    Color? color,
+    Color? actionColor,
+  }) {
+    final snack = SnackBar(
+      content: Text(exception.message),
+      backgroundColor: color,
+      action: SnackBarAction(
+        label: 'Dismiss',
+        textColor: actionColor,
+        onPressed: () {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        },
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 
   Future<void> fetchFaculties() async {
@@ -52,6 +132,13 @@ class _EvaluateState extends State<Evaluate> {
             )
             .toList(),
       ];
+    });
+  }
+
+  Future<void> fetchCriterias() async {
+    final criterias = await criteriaService.fetch();
+    setState(() {
+      this.criterias = criterias;
     });
   }
 
@@ -94,6 +181,54 @@ class _EvaluateState extends State<Evaluate> {
                   ),
                 )
                 .toList(),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          ...criterias
+              .map(
+                (criteria) => Criteria(
+                  criteria: criteria,
+                  onAnswer: (questionId, answer) {
+                    setState(() {
+                      controller.answers[questionId] = answer;
+                    });
+                  },
+                  answers: controller.answers,
+                ),
+              )
+              .toList(),
+          const SizedBox(
+            height: 12,
+          ),
+          TextField(
+            controller: controller.comments,
+            maxLines: 2,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Comments',
+              errorText: controller.hasError('comments')
+                  ? controller.getError('comments').join('\n')
+                  : null,
+              icon: const Icon(
+                Icons.comment_outlined,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 18,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                submit();
+              },
+              child: const Text('Submit'),
+            ),
+          ),
+          const SizedBox(
+            height: 40,
           ),
         ],
       ),
