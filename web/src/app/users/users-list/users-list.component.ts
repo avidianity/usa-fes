@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataTableDirective } from 'angular-datatables';
 import { ToastrService } from 'ngx-toastr';
-import pluralize from 'pluralize';
 import { Subject, Subscription } from 'rxjs';
 import { Roles } from 'src/app/contracts/enums/roles.enum';
 import { User } from 'src/app/contracts/models/user';
@@ -51,8 +50,13 @@ export class UsersListComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.me = this.state.get<User>('user') || new User();
 		this.activatedRouteData = this.activatedRoute.data.subscribe((data) => {
+			const names = {
+				[Roles.ADMIN]: 'Administrators',
+				[Roles.FACULTY]: 'Faculty',
+				[Roles.STUDENT]: 'Students',
+			};
 			this.role = data['role'];
-			this.title = pluralize(data['role']);
+			this.title = names[data['role'] as Roles];
 			this.fetchItems();
 		});
 	}

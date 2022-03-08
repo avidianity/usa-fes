@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Http;
 
+use App\Models\AcademicYear;
+use App\Models\Evaluation;
 use App\Models\Section;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -113,4 +115,32 @@ it('fetches faculties', function () {
         ->each(function (User $user) {
             expect($user->role)->toBe(User::FACULTY);
         });
+});
+
+it('fetches comments for a faculty', function () {
+    $faculty = User::factory()
+        ->faculty()
+        ->active()
+        ->create();
+
+    $student = User::factory()
+        ->student()
+        ->active();
+
+    $year = AcademicYear::factory()
+        ->active()
+        ->ongoing()
+        ->create();
+
+    Evaluation::factory(10)
+        ->for($faculty, 'faculty')
+        ->for($student, 'student')
+        ->create(['academic_year_id' => $year->id]);
+
+    $response = getJson(route('users.faculty.comments', ['faculty' => $faculty->id]))
+        ->assertOk();
+
+    $comments = collect($response->json());
+
+    expect($comments->count())->toBe(10);
 });

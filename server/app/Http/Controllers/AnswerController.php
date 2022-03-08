@@ -6,6 +6,7 @@ use App\Http\Requests\StoreManyAnswersRequest;
 use App\Models\AcademicYear;
 use App\Models\Answer;
 use App\Models\Evaluation;
+use App\Models\Faculty;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -75,9 +76,9 @@ class AnswerController extends Controller
              */
             $user = $request->user();
 
-            $faculty = User::findOrFail($facultyId);
+            $faculty = Faculty::findOrFail($facultyId);
 
-            $answers = $faculty->answersAsFaculty()->createMany(
+            $answers = $faculty->answers()->createMany(
                 collect($answers)->map(function ($data) use ($user) {
                     $data['student_id'] = $user->id;
                     return $data;

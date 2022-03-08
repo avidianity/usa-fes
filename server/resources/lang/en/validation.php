@@ -46,7 +46,7 @@ return [
     'email' => 'The :attribute must be a valid email address.',
     'ends_with' => 'The :attribute must end with one of the following: :values.',
     'enum' => 'The selected :attribute is invalid.',
-    'exists' => 'The selected :attribute is invalid.',
+    'exists' => 'The given :attribute is invalid.',
     'file' => 'The :attribute must be a file.',
     'filled' => 'The :attribute field must have a value.',
     'gt' => [
@@ -159,9 +159,12 @@ return [
 
     'attributes' => [
         'email' => 'email address',
-        'school_id' => 'school ID',
+        'school_id' => 'school id',
         'section_id' => 'section',
-        'faculty_id' => 'faculty'
+        'faculty_id' => 'faculty',
+        'subject_id' => 'subject',
+        'student_id' => 'student',
+        'subject_ids' => 'subjects',
     ],
 
 ];

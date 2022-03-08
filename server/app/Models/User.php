@@ -84,24 +84,4 @@ class User extends Authenticatable
     {
         return sprintf('%s %s', $this->attributes['first_name'], $this->attributes['last_name']);
     }
-
-    public function section()
-    {
-        return $this->belongsTo(Section::class);
-    }
-
-    public function answersAsStudent()
-    {
-        return $this->hasMany(Answer::class, 'student_id');
-    }
-
-    public function answersAsFaculty()
-    {
-        return $this->hasMany(Answer::class, 'faculty_id');
-    }
-
-    public function evaluations()
-    {
-        return $this->hasMany(Evaluation::class, 'faculty_id');
-    }
 }

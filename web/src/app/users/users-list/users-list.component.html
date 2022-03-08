@@ -67,16 +67,18 @@
 							{{ item.active ? 'Active' : 'Inactive' }}
 						</span>
 					</td>
-					<td class="flex justify-center" *ngIf="me.id !== item.id">
+					<td class="flex justify-center">
 						<a
 							class="btn-yellow mx-1 p-0 h-8 w-8 flex items-center justify-center"
 							[routerLink]="[item.id, 'edit']"
+							*ngIf="me.id !== item.id"
 						>
 							<i class="las la-edit"></i>
 						</a>
 						<button
 							class="btn-rose mx-1 p-0 h-8 w-8"
 							(click)="remove(item.id)"
+							*ngIf="me.id !== item.id"
 						>
 							<i class="las la-trash"></i>
 						</button>

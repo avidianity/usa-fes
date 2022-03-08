@@ -15,6 +15,7 @@ import { QuestionnairesComponent } from './questionnaires/questionnaires.compone
 import { SectionsFormComponent } from './sections/sections-form/sections-form.component';
 import { SectionsListComponent } from './sections/sections-list/sections-list.component';
 import { SectionsComponent } from './sections/sections.component';
+import { SubjectsAssignComponent } from './subjects/subjects-assign/subjects-assign.component';
 import { SubjectsFormComponent } from './subjects/subjects-form/subjects-form.component';
 import { SubjectsListComponent } from './subjects/subjects-list/subjects-list.component';
 import { SubjectsComponent } from './subjects/subjects.component';
@@ -54,6 +55,10 @@ export const routes: Routes = [
 					{
 						path: 'add',
 						component: SubjectsFormComponent,
+					},
+					{
+						path: 'assign',
+						component: SubjectsAssignComponent,
 					},
 					{
 						path: ':id/edit',

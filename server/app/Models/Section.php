@@ -21,7 +21,10 @@ class Section extends Model
 
     protected static function booted()
     {
-        static::deleting(fn (self $section) => $section->users->each->delete());
+        static::deleting(fn (self $section) => [
+            $section->users->each->delete(),
+            $section->facultySubjects->each->delete(),
+        ]);
     }
 
     public function getTitleAttribute()
@@ -32,5 +35,10 @@ class Section extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function facultySubjects()
+    {
+        return $this->hasMany(FacultySubject::class);
     }
 }

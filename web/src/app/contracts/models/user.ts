@@ -2,6 +2,7 @@ import { Model } from './model';
 import { Roles } from '../enums/roles.enum';
 import { Section } from './section';
 import { File } from './file';
+import { Subject } from './subject';
 
 export class User extends Model {
 	public school_id?: string;
@@ -15,4 +16,5 @@ export class User extends Model {
 	public section_id?: number;
 	public section?: Section;
 	public picture?: File;
+	public subjects?: Subject[];
 }

@@ -1,0 +1,140 @@
+<app-title title="Assign Subject"></app-title>
+
+<app-card>
+	<div class="flex">
+		<button
+			type="button"
+			class="btn-primary mr-2 w-24"
+			[disabled]="isLoading"
+			(click)="fetchAll()"
+		>
+			{{ isLoading ? '' : 'Refresh' }}
+			<i class="las la-spinner animate-spin" *ngIf="isLoading"></i>
+		</button>
+		<button
+			type="button"
+			[class]="{
+				'btn-emerald': type === roles.FACULTY,
+				'btn-rose': type === roles.STUDENT
+			}"
+			class="w-36"
+			[disabled]="isLoading"
+			(click)="switchType()"
+		>
+			Mode: {{ type }}
+		</button>
+	</div>
+	<form class="mt-3" (ngSubmit)="submit()">
+		<label for="user_id" class="form-label"> Select {{ type }} </label>
+		<select
+			name="user_id"
+			id="user_id"
+			class="form-control"
+			[(ngModel)]="user_id"
+			[disabled]="processing || loading.users"
+		>
+			<option [value]="0">-- Select --</option>
+			<option *ngFor="let user of users" [value]="user.id">
+				{{ user.name }}
+			</option>
+		</select>
+		<hr class="my-4" />
+		<div class="px-4" *ngIf="user.id !== undefined">
+			<div class="row" *ngIf="type === roles.STUDENT">
+				<label
+					[for]="'subject-' + subject.id"
+					class="w-full md:w-6/12 lg:w-3/12 cursor-pointer my-1"
+					*ngFor="let subject of subjects"
+				>
+					<input
+						type="checkbox"
+						[id]="'subject-' + subject.id"
+						class="rounded-full"
+						(change)="toggleSubjectSelection(subject.id!)"
+						[checked]="isSubjectSelected(subject.id!)"
+						[disabled]="processing || loading.users"
+					/>
+					<span class="form-label inline ml-1">
+						{{ subject.name }}
+					</span>
+				</label>
+			</div>
+			<div class="row" *ngIf="type === roles.FACULTY">
+				<div class="w-full md:w-1/2 px-3 mb-6 md:mb-3">
+					<label class="form-label" for="section_id">Section</label>
+					<select
+						class="form-control"
+						name="section_id"
+						id="section_id"
+						[(ngModel)]="section_id"
+					>
+						<option [value]="0">-- Select --</option>
+						<option
+							*ngFor="let section of sections"
+							[value]="section.id"
+						>
+							{{ section.title }}
+						</option>
+					</select>
+				</div>
+				<div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+					<label class="form-label" for="subject_id">Subject</label>
+					<select
+						class="form-control"
+						name="subject_id"
+						id="subject_id"
+						[(ngModel)]="subject_id"
+					>
+						<option [value]="0">-- Select --</option>
+						<option
+							*ngFor="let subject of subjects"
+							[value]="subject.id"
+						>
+							{{ subject.name }}
+						</option>
+					</select>
+				</div>
+				<div class="w-full">
+					<h6 class="text-lg">Assigned Subjects</h6>
+					<app-table>
+						<thead>
+							<tr>
+								<th class="table-head">Subject</th>
+								<th class="table-head">Section</th>
+								<th class="table-head">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								*ngFor="
+									let subject of extractSubjects(this.user)
+								"
+							>
+								<td class="table-data">
+									{{ subject.subject?.name }}
+								</td>
+								<td class="table-data">
+									{{ subject.section?.title }}
+								</td>
+								<td class="table-data">
+									<button
+										type="button"
+										class="btn-rose mx-1 p-0 h-8 w-8"
+										(click)="
+											removeFacultySubject(subject.id!)
+										"
+									>
+										<i class="las la-trash"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</app-table>
+				</div>
+			</div>
+			<div class="mt-4 w-full">
+				<button type="submit" class="btn-primary">Save</button>
+			</div>
+		</div>
+	</form>
+</app-card>

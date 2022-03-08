@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GetUsersRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Faculty;
 use App\Models\File;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(sprintf('role:%s', User::ADMIN))->only('store', 'update', 'destroy');
+        $this->middleware(sprintf('role:%s', User::ADMIN))->only('store', 'update', 'destroy', 'comments');
     }
 
     /**
@@ -33,7 +35,11 @@ class UserController extends Controller
             $builder->where('role', $role);
 
             if ($role === User::STUDENT) {
-                $builder->with('section');
+                $builder = Student::with('picture', 'section', 'subjects')
+                    ->where('role', $role);
+            } else if ($role === User::FACULTY) {
+                $builder = Faculty::with('picture', 'subjects.subject', 'subjects.section')
+                    ->where('role', $role);
             }
         }
 
@@ -105,18 +111,30 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        $builder = User::role(User::FACULTY)
+        $builder = Faculty::role(Faculty::ROLE)
             ->with([
-                'answersAsFaculty',
-                'evaluations'
+                'answers',
+                'evaluations',
+                'subjects.subject',
+                'subjects.section'
             ]);
 
         if ($user->role === User::STUDENT) {
             $builder->whereDoesntHave('evaluations', function (Builder $builder) use ($user) {
                 return $builder->where('student_id', $user->id);
             });
+
+            $builder->whereHas('subjects', function (Builder $builder) use ($user) {
+                return $builder->whereIn('subject_id', $user->subjects->map->id)
+                    ->where('section_id', $user->section_id);
+            });
         }
 
         return $builder->get();
+    }
+
+    public function comments(Faculty $faculty)
+    {
+        return $faculty->evaluations->map->comments;
     }
 }

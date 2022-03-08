@@ -31,4 +31,16 @@
 	.btn-gray {
 		@apply bg-gray-600 py-1 px-4 text-white rounded hover:bg-gray-400 disabled:bg-gray-400 disabled:cursor-not-allowed select-none;
 	}
+
+	.row {
+		@apply flex flex-wrap -mx-3;
+	}
+
+	.table-head {
+		@apply border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left;
+	}
+
+	.table-data {
+		@apply border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400;
+	}
 }

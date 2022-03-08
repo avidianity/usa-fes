@@ -106,7 +106,7 @@ export class UsersService implements EloquentContract<User> {
 		});
 	}
 
-	assignStudentSubjects(student_id: User, subjects: number[]) {
+	assignStudentSubjects(student_id: number, subjects: number[]) {
 		return this.http.post(
 			url('/api/student-subjects/assign'),
 			{
@@ -137,6 +137,12 @@ export class UsersService implements EloquentContract<User> {
 
 	assignFacultyToSubjects(id: number, data: AssignFacultySubjectContract) {
 		return this.http.post(url(`/api/faculty-subjects/${id}`), data, {
+			headers: this.headers(),
+		});
+	}
+
+	removeFacultySubject(id: number) {
+		return this.http.delete(url(`/api/faculty-subjects/${id}`), {
 			headers: this.headers(),
 		});
 	}

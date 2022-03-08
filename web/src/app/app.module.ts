@@ -40,6 +40,8 @@ import { ItemComponent } from './evaluation-criterias/item/item.component';
 import { QuestionItemMenuComponent } from './questionnaires/question-item-menu/question-item-menu.component';
 import { EvaluateComponent } from './evaluate/evaluate.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { SubjectsAssignComponent } from './subjects/subjects-assign/subjects-assign.component';
+import { TableComponent } from './shared/table/table.component';
 
 @NgModule({
 	declarations: [
@@ -71,6 +73,8 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 		QuestionItemMenuComponent,
 		EvaluateComponent,
 		ForgotPasswordComponent,
+		SubjectsAssignComponent,
+  TableComponent,
 	],
 	imports: [
 		FormsModule,

@@ -5,10 +5,12 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\FacultySubjectController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StudentSubjectController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -68,6 +70,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
 
     Route::get('users/faculties', [UserController::class, 'faculties'])->name('users.faculties');
+    Route::get('users/{faculty}/comments', [UserController::class, 'comments'])->name('users.faculty.comments');
 
     Route::apiResources([
         'subjects' => SubjectController::class,
@@ -81,6 +84,21 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::apiResource('questions.answers', AnswerController::class)->except('update', 'store');
     Route::post('answers/many', [AnswerController::class, 'storeMany'])->name('answers.store-many');
+
+    Route::controller(StudentSubjectController::class)
+        ->as('student-subjects.')
+        ->prefix('student-subjects')
+        ->group(function () {
+            Route::post('assign', 'assign')->name('assign');
+        });
+
+    Route::controller(FacultySubjectController::class)
+        ->as('faculty-subjects.')
+        ->prefix('faculty-subjects')
+        ->group(function () {
+            Route::post('/{faculty}', 'store')->name('store');
+            Route::delete('/{faculty_subject}', 'destroy')->name('destroy');
+        });
 });
 
 Route::apiResource('sections', SectionController::class)->only('index');

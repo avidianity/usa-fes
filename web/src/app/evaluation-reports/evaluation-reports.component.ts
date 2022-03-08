@@ -28,6 +28,8 @@ export class EvaluationReportsComponent implements OnInit, OnDestroy {
 
 	analyticsSubscription!: Subscription;
 
+	comments: string[] = [];
+
 	constructor(
 		private usersService: UsersService,
 		private criteriasService: CriteriasService,
@@ -84,6 +86,9 @@ export class EvaluationReportsComponent implements OnInit, OnDestroy {
 					this.toastr.error(error)
 				),
 		});
+		this.criteriasService
+			.fetchCommentsForFaculty(faculty_id)
+			.subscribe((comments) => (this.comments = comments));
 	}
 
 	getRating(question: any, rating: number) {
