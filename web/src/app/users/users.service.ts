@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import FormData from '@avidian/form-data';
 import { isEmpty, isString } from 'lodash-es';
 import { url } from 'src/helpers';
+import { AssignFacultySubjectContract } from '../contracts/assign-faculty-subject.contract';
+import { AssignStudentSubjectContract } from '../contracts/assign-student-subject.contract';
 import { EloquentContract } from '../contracts/eloquent.contract';
 import { Roles } from '../contracts/enums/roles.enum';
 import { User } from '../contracts/models/user';
@@ -100,6 +102,41 @@ export class UsersService implements EloquentContract<User> {
 
 	faculties() {
 		return this.http.get<User[]>(url(`/api/users/faculties`), {
+			headers: this.headers(),
+		});
+	}
+
+	assignStudentSubjects(student_id: User, subjects: number[]) {
+		return this.http.post(
+			url('/api/student-subjects/assign'),
+			{
+				entries: [
+					{
+						student_id,
+						subject_ids: subjects,
+					},
+				],
+			},
+			{
+				headers: this.headers(),
+			}
+		);
+	}
+
+	assignStudentsToSubjects(entries: AssignStudentSubjectContract[]) {
+		return this.http.post(
+			url('api/student-subjects/assign'),
+			{
+				entries,
+			},
+			{
+				headers: this.headers(),
+			}
+		);
+	}
+
+	assignFacultyToSubjects(id: number, data: AssignFacultySubjectContract) {
+		return this.http.post(url(`/api/faculty-subjects/${id}`), data, {
 			headers: this.headers(),
 		});
 	}
