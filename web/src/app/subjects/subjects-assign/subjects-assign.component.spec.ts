@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ToastrModule } from 'ngx-toastr';
 
 import { SubjectsAssignComponent } from './subjects-assign.component';
 
@@ -9,6 +11,7 @@ describe('SubjectsAssignComponent', () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			declarations: [SubjectsAssignComponent],
+			imports: [HttpClientModule, ToastrModule.forRoot()],
 		}).compileComponents();
 	});
 
