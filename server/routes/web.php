@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::fallback(fn () => redirect(frontend('')));
+Route::fallback(fn () => config('app.frontend_location') === 'separate' ? redirect(frontend('')) : view('frontend'));

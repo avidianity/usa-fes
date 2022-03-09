@@ -1,4 +1,4 @@
 export const environment = {
 	production: true,
-	serverUrl: '/',
+	serverUrl: 'https://usa-fes.usa.edu.ph',
 };
