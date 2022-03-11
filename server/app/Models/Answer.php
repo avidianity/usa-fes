@@ -11,7 +11,7 @@ class Answer extends Model
     use HasFactory;
 
     const RATINGS = [
-        1, 2, 3, 4, 5
+        1, 2, 3, 4,
     ];
 
     protected $fillable = [

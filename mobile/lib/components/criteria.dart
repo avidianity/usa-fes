@@ -19,11 +19,10 @@ class Criteria extends StatefulWidget {
 
 class _CriteriaState extends State<Criteria> {
   final answerText = {
-    5: 'Strongly Agree',
-    4: 'Agree',
-    3: 'Uncertain',
-    2: 'Disagree',
-    1: 'Strongly Disagree',
+    4: 'Always',
+    3: 'Frequently',
+    2: 'Occasionally',
+    1: 'Seldom',
   };
 
   @override
@@ -81,7 +80,7 @@ class _CriteriaState extends State<Criteria> {
               ),
               alignment: Alignment.centerLeft,
             ),
-            for (var x = 5; x >= 1; x--)
+            for (var x = 4; x >= 1; x--)
               Align(
                 child: ListTile(
                   title: Text(
