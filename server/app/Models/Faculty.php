@@ -10,6 +10,15 @@ class Faculty extends Model
 
     const ROLE = self::FACULTY;
 
+    protected static function booted()
+    {
+        static::deleting(function (self $faculty) {
+            $faculty->answers->each->delete();
+            $faculty->evaluations->each->delete();
+            $faculty->subjects->each->delete();
+        });
+    }
+
     public function answers()
     {
         return $this->hasMany(Answer::class, 'faculty_id');

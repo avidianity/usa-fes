@@ -20,6 +20,8 @@ class Criteria extends Model
             $criteria->order = static::count() + 1;
         });
 
+        static::deleting(fn (self $criteria) => $criteria->questions->each->delete());
+
         static::deleted(function () {
             $items = static::orderBy('order')->get();
 

@@ -20,6 +20,8 @@ class Question extends Model
         static::creating(function (self $question) {
             $question->order = static::count() + 1;
         });
+
+        static::deleting(fn (self $question) => $question->answers->each->delete());
     }
 
     public function criteria()

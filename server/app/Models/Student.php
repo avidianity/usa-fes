@@ -10,6 +10,14 @@ class Student extends Model
 
     const ROLE = self::STUDENT;
 
+    protected static function booted()
+    {
+        static::deleting(function (self $student) {
+            $student->subjects()->detach();
+            $student->answers->each->delete();
+        });
+    }
+
     public function answers()
     {
         return $this->hasMany(Answer::class, 'student_id');
