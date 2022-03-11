@@ -71,8 +71,8 @@
 					<div class="mt-4 border border-emerald-500 px-3 py-4">
 						<h4 class="text-lg">Rating Legend</h4>
 						<p class="mb-4">
-							5 = Strongly Agree, 4 = Agree, 3 = Uncertain, 2 =
-							Disagree, 1 = Strongly Disagree
+							4 = Always, 3 = Frequently, 2 = Occasionally, 1 =
+							Seldom
 						</p>
 					</div>
 					<div
@@ -91,9 +91,7 @@
 									<div class="flex flex-wrap -mx-3">
 										<div
 											class="w-1/5 text-center"
-											*ngFor="
-												let number of [5, 4, 3, 2, 1]
-											"
+											*ngFor="let number of [4, 3, 2, 1]"
 										>
 											<h6 class="font-bold">
 												{{ number }}
@@ -122,9 +120,7 @@
 									<div class="flex flex-wrap -mx-3">
 										<div
 											class="w-1/5 text-center"
-											*ngFor="
-												let number of [5, 4, 3, 2, 1]
-											"
+											*ngFor="let number of [4, 3, 2, 1]"
 										>
 											<input
 												type="radio"
