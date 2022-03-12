@@ -15,7 +15,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('answers', function (Blueprint $table) {
-            $table->foreignIdFor(Evaluation::class)->constrained();
+            $table->foreignIdFor(Evaluation::class)
+                ->nullable()
+                ->constrained();
         });
     }
 
