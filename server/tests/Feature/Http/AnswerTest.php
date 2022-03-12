@@ -6,6 +6,7 @@ use App\Models\AcademicYear;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Evaluation;
+use App\Models\Subject;
 use App\Models\User;
 use App\Rules\StudentHasNotVotedFaculty;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,10 +27,22 @@ it('fetches answers', function () {
         ->forCriteria()
         ->create();
 
+    $year = AcademicYear::factory()
+        ->active()
+        ->ongoing()
+        ->create();
+
+    $evaluation = Evaluation::factory()
+        ->forStudent()
+        ->forFaculty()
+        ->forSubject()
+        ->create(['academic_year_id' => $year->id]);
+
     Answer::factory(5)
         ->for($question)
         ->forStudent()
         ->forFaculty()
+        ->for($evaluation)
         ->create();
 
     $response = getJson(route('questions.answers.index', ['question' => $question->id]))
@@ -45,10 +58,22 @@ it('fetches an answer', function () {
         ->forCriteria()
         ->create();
 
+    $year = AcademicYear::factory()
+        ->active()
+        ->ongoing()
+        ->create();
+
+    $evaluation = Evaluation::factory()
+        ->forStudent()
+        ->forFaculty()
+        ->forSubject()
+        ->create(['academic_year_id' => $year->id]);
+
     $answers = Answer::factory(5)
         ->for($question)
         ->forStudent()
         ->forFaculty()
+        ->for($evaluation)
         ->create();
 
     $answer = $answers->random();
@@ -69,10 +94,22 @@ it('fails to fetch an answer', function () {
         ->forCriteria()
         ->create();
 
+    $year = AcademicYear::factory()
+        ->active()
+        ->ongoing()
+        ->create();
+
+    $evaluation = Evaluation::factory()
+        ->forStudent()
+        ->forFaculty()
+        ->forSubject()
+        ->create(['academic_year_id' => $year->id]);
+
     $answers = Answer::factory(5)
         ->for($question)
         ->forStudent()
         ->forFaculty()
+        ->for($evaluation)
         ->create();
 
     $answer = $answers->random();
@@ -88,10 +125,23 @@ it('deletes an answer', function () {
         ->forCriteria()
         ->create();
 
+    $year = AcademicYear::factory()
+        ->active()
+        ->ongoing()
+        ->create();
+
+    $evaluation = Evaluation::factory()
+        ->forStudent()
+        ->forFaculty()
+        ->forSubject()
+        ->create(['academic_year_id' => $year->id]);
+
+
     $answers = Answer::factory(5)
         ->for($question)
         ->forStudent()
         ->forFaculty()
+        ->for($evaluation)
         ->create();
 
     $answer = $answers->random();
@@ -109,16 +159,33 @@ it('fetches answers for a student', function () {
         ->forCriteria()
         ->create();
 
+    $faculty = User::factory()->faculty()->create();
+
+    $year = AcademicYear::factory()
+        ->active()
+        ->ongoing()
+        ->create();
+
+    $subject =  Subject::factory()->create();
+
+    $evaluation = Evaluation::factory()
+        ->for($user, 'student')
+        ->for($faculty, 'faculty')
+        ->for($subject)
+        ->create(['academic_year_id' => $year->id]);
+
     Answer::factory(5)
         ->for($question)
         ->forStudent()
         ->forFaculty()
+        ->for($evaluation)
         ->create();
 
     Answer::factory(5)
         ->for($question)
         ->for($user, 'student')
         ->forFaculty()
+        ->for($evaluation)
         ->create();
 
     $response = getJson(route('questions.answers.index', ['question' => $question->id]))
@@ -167,12 +234,16 @@ it('fails to create an answer when given faculty id is not of faculty role', fun
 });
 
 it('creates answers for a student', function () {
-    actingAs(User::STUDENT);
+    $student = actingAs(User::STUDENT);
 
     AcademicYear::factory()
         ->active()
         ->ongoing()
         ->create();
+
+    $subject = Subject::factory()->create();
+
+    $student->subjects()->sync($subject);
 
     $faculty = User::factory()->faculty()->create();
 
@@ -184,6 +255,7 @@ it('creates answers for a student', function () {
 
     $data = [
         'faculty_id' => $faculty->id,
+        'subject_id' => $subject->id,
         'answers' => $questions->map(fn (Question $question) => [
             'question_id' => $question->id,
             'rating' => faker()->randomElement(Answer::RATINGS)
@@ -204,10 +276,15 @@ it('fails to create answers for a student', function () {
 
     $faculty = User::factory()->faculty()->create();
 
+    $subject = Subject::factory()->create();
+
+    $user->subjects()->sync($subject);
+
     Evaluation::create([
         'academic_year_id' => $academicYear->id,
         'faculty_id' => $faculty->id,
-        'student_id' => $user->id
+        'student_id' => $user->id,
+        'subject_id' => $subject->id,
     ]);
 
     Question::factory(5)
@@ -218,19 +295,22 @@ it('fails to create answers for a student', function () {
 
     $data = [
         'faculty_id' => $faculty->id,
+        'subject_id' => $subject->id,
         'answers' => $questions->map(fn (Question $question) => [
             'question_id' => $question->id,
             'rating' => faker()->randomElement(Answer::RATINGS)
         ])->toArray()
     ];
 
+    $message = (new StudentHasNotVotedFaculty($user, $subject->id))->message();
+
     postJson(route('answers.store-many'), $data)
         ->assertUnprocessable()
         ->assertJson([
-            'message' => 'You have already evaluated this faculty.',
+            'message' => $message,
             'errors' => [
                 'faculty_id' => [
-                    (new StudentHasNotVotedFaculty($user))->message()
+                    $message,
                 ]
             ]
         ]);

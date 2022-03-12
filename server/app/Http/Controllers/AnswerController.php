@@ -67,7 +67,7 @@ class AnswerController extends Controller
     public function storeMany(StoreManyAnswersRequest $request)
     {
         return DB::transaction(function () use ($request) {
-            list('faculty_id' => $facultyId, 'answers' => $answers) = $request->validated();
+            list('faculty_id' => $facultyId, 'answers' => $answers, 'subject_id' => $subjectId) = $request->validated();
 
             $comments = $request->input('comments');
 
@@ -78,19 +78,21 @@ class AnswerController extends Controller
 
             $faculty = Faculty::findOrFail($facultyId);
 
-            $answers = $faculty->answers()->createMany(
-                collect($answers)->map(function ($data) use ($user) {
-                    $data['student_id'] = $user->id;
-                    return $data;
-                })
-            );
-
             $evaluation = Evaluation::create([
                 'academic_year_id' => AcademicYear::active()->status(AcademicYear::EVALUATION_ONGOING)->firstOrFail()->id,
                 'student_id' => $user->id,
                 'faculty_id' => $faculty->id,
-                'comments' => $comments
+                'comments' => $comments,
+                'subject_id' => $subjectId,
             ]);
+
+            $answers = $faculty->answers()->createMany(
+                collect($answers)->map(function ($data) use ($user, $evaluation) {
+                    $data['student_id'] = $user->id;
+                    $data['evaluation_id'] = $evaluation->id;
+                    return $data;
+                })
+            );
 
             return [
                 'evaluation' => $evaluation,

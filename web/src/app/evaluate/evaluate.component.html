@@ -40,11 +40,31 @@
 					</option>
 				</select>
 			</div>
+			<div class="py-2">
+				<label for="subject_id" id="subject_id" class="form-label">
+					Subject
+				</label>
+				<select
+					name="subject_id"
+					id="subject_id"
+					class="form-control"
+					[ngModel]="subject_id"
+					(ngModelChange)="onSubjectChange($event)"
+				>
+					<option value="">-- Select --</option>
+					<option
+						*ngFor="let subject of subjects"
+						[value]="subject.id"
+					>
+						{{ subject.name }}
+					</option>
+				</select>
+			</div>
 			<div class="flex mt-4 flex-wrap -mx-3">
 				<div class="w-full md:w-1/2 px-2 py-1">
 					<button
 						class="btn-primary w-full py-2"
-						[disabled]="faculty === null"
+						[disabled]="faculty === null || subject === null"
 						(click)="start()"
 					>
 						Get Started
@@ -57,7 +77,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="pt-1 md:px-4" *ngIf="faculty !== null && isStarted">
+		<div
+			class="pt-1 md:px-4"
+			*ngIf="faculty !== null && subject !== null && isStarted"
+		>
 			<hr class="my-2" />
 			<div class="flex flex-wrap -mx-3">
 				<div class="w-full md:w-1/2">
@@ -73,6 +96,9 @@
 					<h6 class="font-bold">
 						School ID: {{ faculty.school_id }}
 					</h6>
+				</div>
+				<div class="w-full md:w-1/2">
+					<h6 class="font-bold">Subject: {{ subject.name }}</h6>
 				</div>
 				<div class="w-full md:w-1/2">
 					<h6 class="font-bold hidden">Total Students Evaluated:</h6>

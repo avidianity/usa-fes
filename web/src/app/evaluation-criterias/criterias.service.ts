@@ -75,16 +75,16 @@ export class CriteriasService implements EloquentContract<Criteria> {
 		);
 	}
 
-	fetchForFaculty(faculty_id: any) {
+	fetchForFaculty(faculty_id: any, subject_id: any) {
 		return this.http.get<Criteria[]>(
-			url(`/api/criterias/for-faculty/${faculty_id}`),
+			url(`/api/criterias/for-faculty/${faculty_id}`, { subject_id }),
 			{ headers: this.headers() }
 		);
 	}
 
-	fetchCommentsForFaculty(faculty_id: any) {
+	fetchCommentsForFaculty(faculty_id: any, subject_id: any) {
 		return this.http.get<string[]>(
-			url(`/api/users/${faculty_id}/comments`),
+			url(`/api/users/${faculty_id}/comments`, { subject_id }),
 			{
 				headers: this.headers(),
 			}

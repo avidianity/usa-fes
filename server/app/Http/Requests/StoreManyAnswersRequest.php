@@ -4,8 +4,10 @@ namespace App\Http\Requests;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\Subject;
 use App\Models\User;
 use App\Rules\StudentHasNotVotedFaculty;
+use App\Rules\StudentHasSubject;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -32,8 +34,9 @@ class StoreManyAnswersRequest extends FormRequest
             'faculty_id' => [
                 'required',
                 Rule::exists(User::class, 'id')->where('role', User::FACULTY),
-                new StudentHasNotVotedFaculty($this->user())
+                new StudentHasNotVotedFaculty($this->user(), $this->input('subject_id'))
             ],
+            'subject_id' => ['required', Rule::exists(Subject::class, 'id'), new StudentHasSubject($this->user())],
             'answers' => ['required', 'array'],
             'answers.*.question_id' => Rule::forEach(fn () => ['required', Rule::exists(Question::class, 'id'), 'distinct']),
             'answers.*.rating' => Rule::forEach(fn () => ['required', Rule::in(Answer::RATINGS)]),

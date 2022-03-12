@@ -12,7 +12,7 @@
 					id="faculty_id"
 					class="form-control"
 					[ngModel]="faculty_id"
-					(ngModelChange)="onChange($event)"
+					(ngModelChange)="resetSubjectId($event)"
 				>
 					<option value="">-- Select --</option>
 					<option
@@ -20,6 +20,26 @@
 						[value]="faculty.id"
 					>
 						{{ faculty.name }}
+					</option>
+				</select>
+			</div>
+			<div class="py-2">
+				<label for="subject_id" class="form-label" id="subject_id">
+					Select Subject
+				</label>
+				<select
+					name="subject_id"
+					id="subject_id"
+					class="form-control"
+					[ngModel]="subject_id"
+					(ngModelChange)="onChange($event)"
+				>
+					<option value="">-- Select --</option>
+					<option
+						*ngFor="let subject of subjects"
+						[value]="subject.id"
+					>
+						{{ subject.name }}
 					</option>
 				</select>
 			</div>
@@ -42,6 +62,9 @@
 						<h6 class="font-bold">
 							School ID: {{ faculty.school_id }}
 						</h6>
+					</div>
+					<div class="w-full md:w-1/2">
+						<h6 class="font-bold">Subject: {{ subject.name }}</h6>
 					</div>
 					<div class="w-full md:w-1/2">
 						<h6 class="font-bold hidden">

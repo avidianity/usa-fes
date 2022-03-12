@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url } from 'src/helpers';
 import { AnswerContract } from '../contracts/answer.contract';
-import { User } from '../contracts/models/user';
+import { Faculty } from '../contracts/models/faculty';
+import { Subject } from '../contracts/models/subject';
 import { StateService } from '../state.service';
 
 @Injectable({
@@ -25,13 +26,19 @@ export class EvaluationService {
 		return headers;
 	}
 
-	store(faculty: User, answers: AnswerContract[], comments = '') {
+	store(
+		faculty: Faculty,
+		subject: Subject,
+		answers: AnswerContract[],
+		comments = ''
+	) {
 		return this.http.post(
 			url('/api/answers/many'),
 			{
 				faculty_id: faculty.id,
 				answers,
 				comments,
+				subject_id: subject.id,
 			},
 			{ headers: this.headers() }
 		);

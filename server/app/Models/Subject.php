@@ -17,7 +17,10 @@ class Subject extends Model
 
     protected static function booted()
     {
-        static::deleting(fn (self $subject) => $subject->facultySubjects->each->delete());
+        static::deleting(function (self $subject) {
+            $subject->facultySubjects->each->delete();
+            $subject->evaluations->each->delete();
+        });
     }
 
     public function students()
@@ -30,5 +33,10 @@ class Subject extends Model
     public function facultySubjects()
     {
         return $this->hasMany(FacultySubject::class);
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
     }
 }

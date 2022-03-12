@@ -7,6 +7,7 @@ import { AssignFacultySubjectContract } from '../contracts/assign-faculty-subjec
 import { AssignStudentSubjectContract } from '../contracts/assign-student-subject.contract';
 import { EloquentContract } from '../contracts/eloquent.contract';
 import { Roles } from '../contracts/enums/roles.enum';
+import { Faculty } from '../contracts/models/faculty';
 import { User } from '../contracts/models/user';
 import { StateService } from '../state.service';
 
@@ -101,7 +102,7 @@ export class UsersService implements EloquentContract<User> {
 	}
 
 	faculties() {
-		return this.http.get<User[]>(url(`/api/users/faculties`), {
+		return this.http.get<Faculty[]>(url(`/api/users/faculties`), {
 			headers: this.headers(),
 		});
 	}

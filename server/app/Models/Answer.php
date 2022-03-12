@@ -18,6 +18,7 @@ class Answer extends Model
         'faculty_id',
         'student_id',
         'question_id',
+        'evaluation_id',
         'rating'
     ];
 
@@ -43,5 +44,10 @@ class Answer extends Model
     public function question()
     {
         return $this->belongsTo(Question::class);
+    }
+
+    public function evaluation()
+    {
+        return $this->belongsTo(Evaluation::class);
     }
 }

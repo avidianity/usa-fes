@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\Faculty;
+use App\Models\Student;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
@@ -42,11 +44,19 @@ uses(Tests\TestCase::class)->in('Feature');
 /**
  * Set the currently logged in user for the application.
  *
- * @return \App\Models\User
+ * @return \App\Models\User|\App\Models\Faculty|\App\Models\Student
  */
 function actingAs($role = User::ADMIN)
 {
     $user = User::factory()->create(['role' => $role]);
+    switch ($role) {
+        case Faculty::ROLE:
+            $user = Faculty::findOrFail($user->id);
+            break;
+        case Student::ROLE:
+            $user = Student::findOrFail($user->id);
+            break;
+    }
 
     return Sanctum::actingAs($user);
 }

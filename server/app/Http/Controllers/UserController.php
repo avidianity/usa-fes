@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetFacultyCommentsRequest;
 use App\Http\Requests\GetUsersRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Evaluation;
 use App\Models\Faculty;
+use App\Models\FacultySubject;
 use App\Models\File;
 use App\Models\Student;
 use App\Models\User;
@@ -16,7 +19,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(sprintf('role:%s', User::ADMIN))->only('store', 'update', 'destroy', 'comments');
+        $this->middleware(sprintf('role:%s', User::ADMIN))->only('store', 'update', 'destroy');
     }
 
     /**
@@ -124,30 +127,59 @@ class UserController extends Controller
     {
         $user = $request->user();
 
+
         $builder = Faculty::role(Faculty::ROLE)
             ->with([
                 'answers',
                 'evaluations',
+                'subjects.section',
                 'subjects.subject',
-                'subjects.section'
             ]);
 
-        if ($user->role === User::STUDENT) {
-            $builder->whereDoesntHave('evaluations', function (Builder $builder) use ($user) {
-                return $builder->where('student_id', $user->id);
-            });
-
+        if ($user->role === Student::ROLE) {
+            $user->load('subjects');
             $builder->whereHas('subjects', function (Builder $builder) use ($user) {
                 return $builder->whereIn('subject_id', $user->subjects->map->id)
                     ->where('section_id', $user->section_id);
             });
         }
 
-        return $builder->get();
+        $faculties = $builder->get();
+
+        if ($user->role === Student::ROLE) {
+            return $faculties->filter(function (Faculty $faculty) use ($user) {
+                $subjects = $user->subjects;
+                return $faculty->evaluations()
+                    ->where('student_id', $user->id)
+                    ->whereIn('subject_id', $subjects->map->id)
+                    ->count() < $subjects->count();
+            })->map(function (Faculty $faculty) use ($user) {
+                $subjects = $faculty->subjects->filter(function (FacultySubject $facultySubject) use ($user) {
+                    return Evaluation::where('subject_id', $facultySubject->subject_id)
+                        ->where('student_id', $user->id)
+                        ->where('faculty_id', $facultySubject->faculty_id)
+                        ->count() === 0;
+                })->values()->all();
+
+                $data = $faculty->toArray();
+
+                unset($data['subjects']);
+
+                $data['subjects'] = $subjects;
+
+                return $faculty;
+            })->values()->all();
+        }
+
+        return $faculties;
     }
 
-    public function comments(Faculty $faculty)
+    public function comments(GetFacultyCommentsRequest $request, Faculty $faculty)
     {
-        return $faculty->evaluations->map->comments;
+        return $faculty->evaluations()
+            ->where('subject_id', $request->validated('subject_id'))
+            ->get()
+            ->map
+            ->comments;
     }
 }

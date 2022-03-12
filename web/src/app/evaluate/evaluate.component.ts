@@ -8,7 +8,9 @@ import { Asker, errorToStrings } from 'src/helpers';
 import { AuthService } from '../auth/auth.service';
 import { AnswerContract } from '../contracts/answer.contract';
 import { Criteria } from '../contracts/models/criteria';
+import { Faculty } from '../contracts/models/faculty';
 import { Question } from '../contracts/models/question';
+import { Subject } from '../contracts/models/subject';
 import { User } from '../contracts/models/user';
 import { Analytics } from '../dashboard/main-panel/analytics';
 import { MainPanelService } from '../dashboard/main-panel/main-panel.service';
@@ -31,15 +33,19 @@ export class EvaluateComponent implements OnInit, OnDestroy {
 	processing = false;
 
 	criterias: Criteria[] = [];
-	faculties: User[] = [];
+	faculties: Faculty[] = [];
+	subjects: Subject[] = [];
 
 	answers: AnswerContract[][] = [];
 
 	analyticsSubscription!: Subscription;
 
 	faculty_id = '';
+	subject_id = '';
 
-	faculty: User | null = null;
+	faculty: Faculty | null = null;
+
+	subject: Subject | null = null;
 
 	comments = '';
 
@@ -81,7 +87,9 @@ export class EvaluateComponent implements OnInit, OnDestroy {
 	fetchFaculties() {
 		this.usersService
 			.faculties()
-			.subscribe((faculties) => (this.faculties = faculties))
+			.subscribe((faculties) => {
+				this.faculties = faculties;
+			})
 			.add(() => (this.loaded = true));
 	}
 
@@ -98,13 +106,28 @@ export class EvaluateComponent implements OnInit, OnDestroy {
 
 		if (faculty) {
 			this.faculty = faculty;
+			this.subjects =
+				faculty.subjects?.map((subject) => subject.subject!) ?? [];
 		} else {
 			this.faculty = null;
+			this.subjects = [];
+			this.subject = null;
+		}
+	}
+
+	onSubjectChange(value: string) {
+		const id = Number(value);
+
+		const subject = this.subjects.find((subject) => subject.id === id);
+
+		if (subject) {
+			this.subject = subject;
+			this.subject_id = value;
 		}
 	}
 
 	start() {
-		if (this.faculty) {
+		if (this.faculty && this.subject) {
 			this.answers = this.criterias.map((criteria) =>
 				criteria.questions!.map((question) => ({
 					question_id: question.id!,
@@ -120,14 +143,21 @@ export class EvaluateComponent implements OnInit, OnDestroy {
 	stop() {
 		this.isStarted = false;
 		this.answers = [];
+		this.subjects = [];
 		this.faculty = null;
+		this.subject = null;
 		this.fetchFaculties();
 	}
 
 	submit() {
 		this.processing = true;
 		this.evaluationService
-			.store(this.faculty!, flatten(this.answers), this.comments)
+			.store(
+				this.faculty!,
+				this.subject!,
+				flatten(this.answers),
+				this.comments
+			)
 			.subscribe({
 				next: () => {
 					this.toastr.success(

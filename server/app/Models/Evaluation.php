@@ -18,6 +18,7 @@ class Evaluation extends Model
         'academic_year_id',
         'student_id',
         'faculty_id',
+        'subject_id',
         'comments'
     ];
 
@@ -34,5 +35,15 @@ class Evaluation extends Model
     public function student()
     {
         return $this->belongsTo(User::class, 'student_id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
     }
 }

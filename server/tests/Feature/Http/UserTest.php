@@ -5,6 +5,7 @@ namespace Tests\Feature\Http;
 use App\Models\AcademicYear;
 use App\Models\Evaluation;
 use App\Models\Section;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -132,12 +133,15 @@ it('fetches comments for a faculty', function () {
         ->ongoing()
         ->create();
 
+    $subject = Subject::factory()->create();
+
     Evaluation::factory(10)
         ->for($faculty, 'faculty')
         ->for($student, 'student')
+        ->for($subject)
         ->create(['academic_year_id' => $year->id]);
 
-    $response = getJson(route('users.faculty.comments', ['faculty' => $faculty->id]))
+    $response = getJson(route('users.faculty.comments', ['faculty' => $faculty->id, 'subject_id' => $subject->id]))
         ->assertOk();
 
     $comments = collect($response->json());

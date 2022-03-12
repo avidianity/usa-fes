@@ -2,9 +2,12 @@
 
 namespace Tests\Feature\Http;
 
+use App\Models\AcademicYear;
 use App\Models\Answer;
 use App\Models\Criteria;
+use App\Models\Evaluation;
 use App\Models\Question;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -105,19 +108,35 @@ it('reorders criterias', function () {
 it('fetches criterias for faculty', function () {
     $faculty = User::factory()->faculty()->create();
 
+    $student = User::factory()->student()->create();
+
     $criterias = collect(Criteria::factory(3)->create());
+
+    $year = AcademicYear::factory()
+        ->active()
+        ->ongoing()
+        ->create();
+
+    $subject =  Subject::factory()->create();
+
+    $evaluation = Evaluation::factory()
+        ->for($student, 'student')
+        ->for($faculty, 'faculty')
+        ->for($subject)
+        ->create(['academic_year_id' => $year->id]);
 
     $criterias->map(fn (Criteria $criteria) => Question::factory(5)->for($criteria)->create())
         ->map(
             fn (Collection $questions) => $questions->map(
                 fn (Question $question) => Answer::factory(25)
-                    ->forStudent()
+                    ->for($student, 'student')
                     ->for($faculty, 'faculty')
                     ->for($question)
+                    ->for($evaluation)
                     ->create()
             )
         );
 
-    getJson(route('criterias.for-faculty', ['faculty' => $faculty->id]))
+    getJson(route('criterias.for-faculty', ['faculty' => $faculty->id, 'subject_id' => $subject->id]))
         ->assertOk();
 });

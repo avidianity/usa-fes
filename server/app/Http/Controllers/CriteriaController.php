@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetFacultyCriteriaRequest;
 use App\Http\Requests\StoreCriteriaRequest;
 use App\Http\Requests\UpdateCriteraOrderRequest;
 use App\Http\Requests\UpdateCriteriaRequest;
 use App\Models\Answer;
 use App\Models\Criteria;
+use App\Models\Evaluation;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -91,7 +93,7 @@ class CriteriaController extends Controller
         });
     }
 
-    public function forFaculty(Request $request, int $id)
+    public function forFaculty(GetFacultyCriteriaRequest $request, int $id)
     {
         /**
          * @var \App\Models\User
@@ -116,18 +118,24 @@ class CriteriaController extends Controller
             return response(['message' => 'Faculty does not exist.'], 404);
         }
 
+        $evaluations = Evaluation::where('subject_id', $request->validated('subject_id'))
+            ->where('faculty_id', $faculty->id)
+            ->get();
+
         $criterias = Criteria::orderBy('order')
             ->with('questions')
             ->get();
 
-        return $criterias->map(function (Criteria $criteria) use ($faculty) {
-            $criteria->questions = $criteria->questions->map(function (Question $question) use ($faculty) {
+        return $criterias->map(function (Criteria $criteria) use ($faculty, $evaluations) {
+            $criteria->questions = $criteria->questions->map(function (Question $question) use ($faculty, $evaluations) {
                 /**
                  * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\Answer>
                  */
-                $answers = $question->answers()->where('faculty_id', $faculty->id)->get();
+                $answers = $question->answers()
+                    ->where('faculty_id', $faculty->id)
+                    ->whereIn('evaulation_id', $evaluations->map->id)
+                    ->get();
                 $question->answer_meta = [
-                    'five' => $answers->filter(fn (Answer $answer) => $answer->rating === 5)->count(),
                     'four' => $answers->filter(fn (Answer $answer) => $answer->rating === 4)->count(),
                     'three' => $answers->filter(fn (Answer $answer) => $answer->rating === 3)->count(),
                     'two' => $answers->filter(fn (Answer $answer) => $answer->rating === 2)->count(),

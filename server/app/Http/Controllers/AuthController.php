@@ -9,6 +9,7 @@ use App\Models\File;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -42,6 +43,7 @@ class AuthController extends Controller
 
         if ($user->role === Faculty::FACULTY) {
             $user = Faculty::with('picture')
+                ->with('subjects.subject')
                 ->findOrFail($user->id);
         }
 
@@ -55,13 +57,15 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->validated());
+        return DB::transaction(function () use ($request) {
+            $user = User::create($request->validated());
 
-        if ($request->hasFile('picture')) {
-            $user->picture()->save(File::process($request->file('picture')));
-        }
+            if ($request->hasFile('picture')) {
+                $user->picture()->save(File::process($request->file('picture')));
+            }
 
-        return $user;
+            return $user;
+        });
     }
 
     public function check(Request $request)
@@ -70,8 +74,12 @@ class AuthController extends Controller
 
         $user->load('picture');
 
-        if ($user->role === User::STUDENT) {
+        if ($user->role === Student::ROLE) {
             $user->load('section');
+        }
+
+        if ($user->role === Faculty::ROLE) {
+            $user->load('subjects.subject');
         }
 
         return $user;

@@ -17,14 +17,23 @@ class StudentHasNotVotedFaculty implements Rule
     protected $user;
 
     /**
+     * The subject id in the request
+     *
+     * @var int|string
+     */
+    protected $subjectId;
+
+    /**
      * Create a new rule instance.
      *
      * @param  \App\Models\User  $user
+     * @param  int|string $subjectId
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $subjectId)
     {
         $this->user = $user;
+        $this->subjectId = $subjectId;
     }
 
     /**
@@ -41,6 +50,7 @@ class StudentHasNotVotedFaculty implements Rule
             ->firstOrFail();
 
         return Evaluation::where('academic_year_id', $currentAcademicYear->id)
+            ->where('subject_id', $this->subjectId)
             ->where('faculty_id', $value)
             ->where('student_id', $this->user->id)
             ->count() === 0;
@@ -53,6 +63,6 @@ class StudentHasNotVotedFaculty implements Rule
      */
     public function message()
     {
-        return 'You have already evaluated this faculty.';
+        return 'You have already evaluated this faculty with this subject.';
     }
 }
